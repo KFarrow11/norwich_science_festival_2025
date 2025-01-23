@@ -40,19 +40,6 @@ blocks <- data.frame(
   color = rep(c("#FFD700", "#1E90FF", "#4EBA8B", "#DE0013", "#800080", "#FFA500"), length.out = 20)
 )
 
-# Add a cumulative sum for the heights to create the stacking effect 
-blocks <- blocks %>% mutate(cumulative_height = cumsum(height)) 
-
-# Create the plot 
-p <- ggplot(blocks, aes(x = factor(block), y = cumulative_height, fill = color)) + 
-      geom_bar(stat = "identity", width = 0.8) + scale_fill_identity() + 
-      theme_classic() + 
-      theme(axis.title = element_blank(), axis.text = element_blank(), axis.ticks = element_blank()) + 
-      transition_states(block, transition_length = 1, 
-                        state_length = 1) + 
-      enter_fade() + exit_fade() # Save the animation
-  
-animate(p, nframes = 40, renderer = gifski_renderer("blocks_animation.gif"))
 
 # Define UI and Custom Styles ----
 
@@ -120,15 +107,14 @@ ui <- fluidPage(
                               "Orange" = "#FFA500")),  # Vibrant orange, easy to spot
       actionButton("add", "Plot Data"),  # Button to Plot Data
       br(), br(),
-      img(src = "blocks_animation.gif", height = "400px", alt = "Animated stacking blocks"),  # Replace the image with the animated GIF
-      br(), br(),
+      img(src = "bricks2.png", alt = "Bricks Image", width = "100%", height = "auto"),  # Add the image
     ),
     
     # Main panel to display the scatter plot
     mainPanel(
       plotlyOutput("scatterPlot")  # Placeholder for the interactive scatter plot
-    )
-  ))
+    )))
+  
 
 # Server logic to handle user inputs and generate outputs
 server <- function(input, output, session) {
