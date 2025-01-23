@@ -1,9 +1,9 @@
 {
     "id": "C3FB4BCE",
-    "path": "C:/Users/Katie/Desktop/R_files/masters/nsf_25/nsf_2025/colours.R",
+    "path": "C:/Users/Katie/Desktop/R_files/masters/norwich_science_festival_2025/norwich_science_festival_2025/colours.R",
     "project_path": "colours.R",
     "type": "r_source",
-    "hash": "879456491",
+    "hash": "3128977203",
     "contents": "",
     "dirty": false,
     "created": 1736938811981.0,
@@ -15,11 +15,11 @@
         "Source": "Source"
     },
     "folds": "",
-    "lastKnownWriteTime": 1736946683,
+    "lastKnownWriteTime": 1737639679,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1736946683124,
+    "last_content_update": 1737639679673,
     "read_only": false,
     "read_only_alternatives": []
 }
