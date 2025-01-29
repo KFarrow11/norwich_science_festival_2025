@@ -1,24 +1,3 @@
-# Learning Object: Tower Building Task ----
-# Objective: To build a tower using identical blocks as fast as possible, and measure the time taken by each participant to illustrate variability in task completion speeds.
-# Materials: A set of identical building blocks (e.g., LEGO bricks, wooden blocks), Stopwatch or timer, A flat surface for building, A data recording sheet or digital spreadsheet
-# Procedure:
-# Setup:
-#. Ensure all participants have the same number of building blocks.
-#. The blocks should be of uniform size and shape to ensure consistency.
-# Instructions to Participants: 
-#. Your goal is to build a tower as tall as possible using all the blocks in the shortest amount of time.
-#. The tower must be stable and stand on its own for at least 10 seconds after completion.
-#. You are not allowed to start building until the signal is given.
-# Execution:
-#. On the signal (e.g., "Ready, Set, Go!"), start building the tower as fast as you can.
-#. Use the stopwatch to time each participant from the start signal until they declare their tower complete.
-#. Record the time taken for each participant.
-# Data Recording:
-#. Create a table to record the times. Include columns for participant ID, time taken, and any additional notes (e.g., tower stability, number of blocks used).
-# Plotting the Data: Use a spreadsheet software or statistical tool to plot the times on a graph.
-# The x-axis should represent the participant IDs, and the y-axis should represent the time taken (in seconds).
-# You can use a bar graph, line plot, or scatter plot to visualize the differences in task completion speeds.
-# ___________________________________________________________________________________________________________________----
 # Packages ----
 library(shiny)
 library(tidyverse)
@@ -26,7 +5,7 @@ library(plotly)
 # ___________________________________________________________________________________________________________________----
 # Define UI and Custom Styles ---- 
 # UI (User Interface) Setup
-ui_2 <- fluidPage(
+ui <- fluidPage(
   # Define custom styles/theme for app page
   tags$head(
     tags$style(HTML(" 
@@ -100,16 +79,40 @@ ui_2 <- fluidPage(
     )
   ))
 
-# server_2 logic to handle user inputs and generate outputs
-server_2 <- function(input, output, session) {
+# Combined server logic
+server <- function(input, output, session) {
+  # Define the path for saving the inputs as a CSV
+  tower <- "data/nsf2025_data_collection.csv"
+  
+  # Load existing data if it exists
+  if (file.exists(tower)) {
+    tower_data <- read.csv(tower)
+  } else {
+    tower_data <- data.frame(Age = numeric(), 
+                             Blocks = numeric(), Color = character())
+  }
+  
+  # Create a reactive dataframe to store user inputs
+  data <- reactiveVal(tower_data)
+  
+  # Update the dataframe when the action button is clicked
+  observeEvent(input$add, {
+    new_row <- data.frame(Age = input$age, 
+                          Blocks = input$blocks, Color = input$color, stringsAsFactors = FALSE)
+    updated_data <- rbind(data(), new_row)
+    data(updated_data)
+    # Save updated data to CSV
+    write.csv(updated_data, tower, row.names = FALSE)
+  })
+  
   # Generate and render the scatter plot when the data changes
   output$scatterPlot <- renderPlotly({
     # Retrieve the current data
     plot_data <- data()
     
     # Create the ggplot scatter plot
-    p <- ggplot(plot_data, aes(y = blocks, x = factor(age), color = color, 
-                               text = paste("<br>Age:", age, "<br>Blocks:", blocks))) +
+    p <- ggplot(plot_data, aes(y = Blocks, x = factor(Age), color = Color, 
+                               text = paste("<br>Age:", Age, "<br>Blocks:", Blocks))) +
       geom_point(size = 6, shape = 21, fill = plot_data$Color) +  # Add points to the plot with customized size and color
       scale_color_identity() +  # Use the exact color values provided (no automatic scaling)
       theme_minimal(base_size = 15) +  # Apply a minimal theme to the plot
@@ -120,8 +123,7 @@ server_2 <- function(input, output, session) {
             panel.background = element_rect(fill = "#C7CED6"),  # Set panel background color
             plot.background = element_rect(fill = "#C7CED6"),  # Set overall plot background color
             panel.grid.major = element_line(color = "#000000"),  # Customize major grid lines
-            panel.grid.minor = element_line(color = "#000000"),  # Customize minor grid lines
-            scale_y_continuous(breaks = c(0, 20)))  # Set y-axis breaks
+            panel.grid.minor = element_line(color = "#000000"))  # Customize minor grid lines
     
     # Convert the ggplot to a Plotly object for interactivity and set custom tooltips
     ggplotly(p, tooltip = "text")
@@ -129,5 +131,5 @@ server_2 <- function(input, output, session) {
 }
 
 # Run the Shiny app
-shinyApp(ui = ui_2, server = server_2)
+shinyApp(ui = ui, server = server)
 

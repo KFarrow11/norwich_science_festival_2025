@@ -3,7 +3,7 @@
     "path": "C:/Users/Katie/Desktop/R_files/masters/norwich_science_festival_2025/shiny_2.R",
     "project_path": "shiny_2.R",
     "type": "r_source",
-    "hash": "1216071369",
+    "hash": "4237365600",
     "contents": "",
     "dirty": false,
     "created": 1737808759138.0,
@@ -14,12 +14,12 @@
         "source_window_id": "",
         "Source": "Source"
     },
-    "folds": "",
-    "lastKnownWriteTime": 1737837619,
+    "folds": "0|39|19|109|\n",
+    "lastKnownWriteTime": 1738084700,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1737837619545,
+    "last_content_update": 1738168751888,
     "read_only": false,
     "read_only_alternatives": []
 }

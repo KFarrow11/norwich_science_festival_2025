@@ -26,7 +26,7 @@ library(plotly)
 # ___________________________________________________________________________________________________________________----
 # Define UI and Custom Styles ---- 
 # UI (User Interface) Setup
-ui_2 <- fluidPage(
+ui <- fluidPage(
   # Define custom styles/theme for app page
   tags$head(
     tags$style(HTML(" 
@@ -101,7 +101,21 @@ ui_2 <- fluidPage(
   ))
 
 # server_2 logic to handle user inputs and generate outputs
-server_2 <- function(input, output, session) {
+server <- function(input, output, session) {
+  # Create a reactive value to store the data for the plot
+  data <- reactiveVal(data.frame(age = numeric(), 
+                                 blocks = numeric(), color = character(), stringsAsFactors = FALSE))
+  
+  # When the "Add to plot" button is clicked, update the data
+  observeEvent(input$add, {
+    # Create a new row from the user inputs
+    new_row <- data.frame(age = input$age, 
+                          blocks = input$blocks, color = input$color, stringsAsFactors = FALSE)
+    
+    # Append the new row to the existing data
+    data(rbind(data(), new_row))  # Update the reactive value with the new data
+  })
+  
   # Generate and render the scatter plot when the data changes
   output$scatterPlot <- renderPlotly({
     # Retrieve the current data
@@ -110,7 +124,7 @@ server_2 <- function(input, output, session) {
     # Create the ggplot scatter plot
     p <- ggplot(plot_data, aes(y = blocks, x = factor(age), color = color, 
                                text = paste("<br>Age:", age, "<br>Blocks:", blocks))) +
-      geom_point(size = 6, shape = 21, fill = plot_data$Color) +  # Add points to the plot with customized size and color
+      geom_point(size = 6, shape = 21, fill = plot_data$color) +  # Add points to the plot with customized size and color
       scale_color_identity() +  # Use the exact color values provided (no automatic scaling)
       theme_minimal(base_size = 15) +  # Apply a minimal theme to the plot
       labs(y = "Number of Blocks", x = "Age") +  # Set labels for axes
@@ -128,6 +142,6 @@ server_2 <- function(input, output, session) {
   })
 }
 
-# Run the Shiny app
-shinyApp(ui = ui_2, server = server_2)
 
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
