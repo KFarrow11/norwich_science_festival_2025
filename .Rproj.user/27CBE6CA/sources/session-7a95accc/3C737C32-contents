@@ -15,10 +15,12 @@ ui <- fluidPage(
           font-family: 'Lucida Console', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
-          background-color: #F8D210;  /* Set background color for sidebar */
+          background-color: #05b8d8;  /* Set background color for sidebar */
           padding: 20px;  /* Add padding inside the sidebar */
           border: 3px solid #000000;  /* Add border to sidebar */
           border-radius: 10px;  /* Round corners of the sidebar */
+          font-size: 20px;  /* Set font size for sidebar text */
+          font-weight: bold;  /* Make sidebar text bold */
       }
       .title {
           color: #000000;  /* Set text color for title */
@@ -28,7 +30,7 @@ ui <- fluidPage(
           border: 3px solid #000000;  /* Add border around the title */
           border-radius: 10px;  /* Round corners of the title */
           padding: 10px;  /* Add padding inside the title */
-          background-color: #F8D210;  /* Set background color for the title */
+          background-color: #05b8d8;  /* Set background color for the title */
           box-shadow: 2px 2px 8px rgba(0,0,0,0.3);  /* Add shadow to the title */
       }
       h3 {
