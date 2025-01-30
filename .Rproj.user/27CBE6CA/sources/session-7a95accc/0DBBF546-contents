@@ -1,0 +1,25 @@
+
+choices = c("Pink" = "#F39",  # Bright pink, highly distinguishable
+            "Blue" = "#1E90FF",  # Bright blue, stands out well
+            "Green" = "#81B622",  # Soft green with good contrast
+            "Red" = "#DE0013",  # Intense red, very distinguishable
+            "Purple" = "#800080",  # Deep purple, contrasting with other colors
+            "Orange" = "#FFA500")  # Vibrant orange, easy to spot
+
+choices1 = c("Red" = "#DE0013",  # red
+             "Blue" = "#007FFF",  # blue
+             "Green" = "#81B622",  # green
+             "Pink" = "#FF0080",      # pink
+             "Gold" = "#FFD700",          # gold
+             "Turquoise" = "#40E0D0",     # Bright turquoise
+
+colors = c("Red" = "#FF0000",       # Bold red
+           "Yellow" = "#FFD700",    # Vibrant yellow
+           "Pink" = "#FF0080",      # Soft pink
+           "Green" = "#008000",     # Bright green
+           "Orange" = "#FFA500",    # Energetic orange
+           "Purple" = "#800080",    # Deep purple
+           "Blue" = "#0000FF")      # Brilliant blue
+             
+
+
