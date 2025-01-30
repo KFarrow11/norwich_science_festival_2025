@@ -12,7 +12,7 @@ ui <- fluidPage(
     tags$style(HTML(" 
       body { 
           background-color: #C7CED6;  /* Set background color of the body */
-          font-family: 'Lucida Console', Monaco, monospace;  /* Set font family for the page */
+          font-family: 'Lucida Sans Typewriter', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
           background-color: #05b8d8;  /* Set background color for sidebar */
@@ -44,7 +44,7 @@ ui <- fluidPage(
           font-weight: bold;  /* Make paragraphs bold */
       }
       .action-button {
-          background-color: #76B947;  /* Set background color for action buttons */
+          background-color: #FFA500;  /* Set background color for action buttons */
           color: black;  /* Set text color for action buttons */
           border: 3px solid #000000;  /* Add border for action buttons */
           border-radius: 5px;  /* Round corners of action buttons */
