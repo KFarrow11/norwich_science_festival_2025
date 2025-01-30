@@ -56,7 +56,7 @@ ui <- fluidPage(
   ),
   
   # Title displayed at the top of the app
-  div(class = "title", "Speedy Skyscrapers: Does Age Matter in Tower Building?"), br(), # Displays the updated title with styling
+  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Matter in Tower Building?")), br(), # Displays the updated title with styling
   
   # Define layout of the page with a sidebar and a main panel
   sidebarLayout(
