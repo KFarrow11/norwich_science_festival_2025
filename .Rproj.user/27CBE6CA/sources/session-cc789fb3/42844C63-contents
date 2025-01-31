@@ -1,4 +1,3 @@
-# Define UI and Custom Styles ---- 
 ui <- fluidPage(
   # Define custom styles/theme for app page
   tags$head(
@@ -45,50 +44,43 @@ ui <- fluidPage(
           font-size: 20px;  /* Set font size for action buttons */
           font-weight: bold;  /* Set text bold */
       }
-      .checkbox-group {
-          display: flex;
-          flex-wrap: wrap;
-      }
-      .checkbox-group .checkbox-inline {
-          width: 33.33%;
-      }
     "))
   ),
   
   # Title displayed at the top of the app
-  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Matter in Tower Building?")), br(), # Displays the updated title with styling
+  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Matter in Tower Building?")), br(), 
   
   # Define layout of the page with a sidebar and a main panel
   sidebarLayout(
     sidebarPanel(
-      class = "sidebar",  # Apply custom class for styling the sidebar
-      sliderInput("blocks", "How many blocks?", min = 1, max = 10, value = 1), # Slider input for number of blocks
-      div(class = "checkbox-group",
-          checkboxGroupInput("age", "Age", choices = c("<=5" = "<=5", "6-10" = "6-10", "11-15" = "11-15", "16-19" = "16-19", 
-                                                       "20-24" = "20-24", "25-29" = "25-29", "30-39" = "30-39", "40-49" = "40-49", 
-                                                       "50-59" = "50-59", "60-69" = "60-69", "70+" = "70+"), inline = TRUE)  # Age categories
-      ),
-      div(class = "checkbox-group",
-          checkboxGroupInput("color", "Favorite Colour", # Pick a colour from options
-                             choices = c("Red" = "#FF0000",       # Bold red
-                                         "Yellow" = "#FFD700",    # Vibrant yellow
-                                         "Pink" = "#FF0080",      # Soft pink
-                                         "Green" = "#008000",     # Bright green
-                                         "Orange" = "#FFA500",    # Energetic orange
-                                         "Purple" = "#800080",    # Deep purple
-                                         "Blue" = "#0000FF"),      # Brilliant blue
-                             inline = TRUE)
-      ),
-      actionButton("add", "Plot Data"),  # Button to Plot Data
-      br(), br() , # Image displayed in the sidebar
-      br(), br(),),
+      class = "sidebar",
+      sliderInput("blocks", "How many blocks?", min = 1, max = 10, value = 1), 
+      radioButtons("age", "Age", 
+                   choices = c("Toddler (0-4)" = "Toddler (0-4)", 
+                               "Young Child (5-8)" = "Young Child (5-8)",
+                               "Child (9-12)" = "Child (9-12)", 
+                               "Teen (13-19)" = "Teen (13-19)",
+                               "Young Adult (20-35)" = "Young Adult (20-35)", 
+                               "Adult (36-60)" = "Adult (36-60)",
+                               "Older Adult (61-70)" = "Older Adult (61-70)", 
+                               "Senior (70+)" = "Senior (70+)")),
+      radioButtons("color", "Favorite Colour", 
+                   choices = c("Red" = "#FF0000", 
+                               "Yellow" = "#FFD700", 
+                               "Pink" = "#FF0080", 
+                               "Green" = "#008000", 
+                               "Orange" = "#FFA500", 
+                               "Purple" = "#800080", 
+                               "Blue" = "#0000FF")),
+      actionButton("add", "Plot Data"),
+      br(), br(),
+    ),
     
     # Main panel to display the scatter plot
     mainPanel(
-      width = 8,  # Adjust the main panel width to fill more space
-      plotlyOutput("scatterPlot")  # Placeholder for the interactive scatter plot
-    )
-  ))
+      width = 8,
+      plotlyOutput("scatterPlot")
+    )))
 
 # Server logic to handle user inputs and generate outputs
 server <- function(input, output, session) {
@@ -107,8 +99,8 @@ server <- function(input, output, session) {
   
   # Update the dataframe when the action button is clicked
   observeEvent(input$add, {
-    new_rows <- expand.grid(Age = input$age, Blocks = input$blocks, Color = input$color, stringsAsFactors = FALSE)
-    updated_data <- rbind(data(), new_rows)
+    new_row <- data.frame(Age = input$age, Blocks = input$blocks, Color = input$color, stringsAsFactors = FALSE)
+    updated_data <- rbind(data(), new_row)
     data(updated_data)
     # Save updated data to CSV
     write.csv(updated_data, tower, row.names = FALSE)
@@ -119,12 +111,19 @@ server <- function(input, output, session) {
     # Retrieve the current data
     plot_data <- data()
     
+    # Define the levels and order for Age
+    plot_data$Age <- factor(plot_data$Age, levels = c(
+      "Toddler (0-4)", "Young Child (5-8)", "Child (9-12)", "Teen (13-19)", 
+      "Young Adult (20-35)", "Adult (36-60)", "Older Adult (61-70)", "Senior (70+)"
+    ))
+    
     # Create the ggplot scatter plot
     p <- ggplot(plot_data, aes(y = Blocks, x = Age, color = Color, text = paste("<br>Age:", Age, "<br>Blocks:", Blocks))) +
       geom_point(size = 6, shape = 21, fill = plot_data$Color) + # Add points to the plot with customized size and color
       scale_color_identity() + # Use the exact color values provided (no automatic scaling)
       theme_minimal(base_size = 15) + # Apply a minimal theme to the plot
       labs(y = "Number of Blocks", x = "Age") + # Set labels for axes
+      scale_y_continuous(limits = c(0, 10), breaks = 0:10) + # Set y-axis limits and breaks
       theme(plot.title = element_text(face = "bold", size = 20, color = "#000000"), # Customize plot title style
             axis.title = element_text(face = "bold", size = 16), # Customize axis title style
             legend.position = "none", # Hide legend

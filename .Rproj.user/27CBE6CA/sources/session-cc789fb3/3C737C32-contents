@@ -1,4 +1,11 @@
+# Packages ----
+library(shiny)
+library(tidyverse)
+library(plotly)
+
+# ___________________________________________________________________________________________________________________----
 # Define UI and Custom Styles ---- 
+# UI (User Interface) Setup
 ui <- fluidPage(
   # Define custom styles/theme for app page
   tags$head(
@@ -45,13 +52,6 @@ ui <- fluidPage(
           font-size: 20px;  /* Set font size for action buttons */
           font-weight: bold;  /* Set text bold */
       }
-      .checkbox-group {
-          display: flex;
-          flex-wrap: wrap;
-      }
-      .checkbox-group .checkbox-inline {
-          width: 33.33%;
-      }
     "))
   ),
   
@@ -62,23 +62,16 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       class = "sidebar",  # Apply custom class for styling the sidebar
-      sliderInput("blocks", "How many blocks?", min = 1, max = 10, value = 1), # Slider input for number of blocks
-      div(class = "checkbox-group",
-          checkboxGroupInput("age", "Age", choices = c("<=5" = "<=5", "6-10" = "6-10", "11-15" = "11-15", "16-19" = "16-19", 
-                                                       "20-24" = "20-24", "25-29" = "25-29", "30-39" = "30-39", "40-49" = "40-49", 
-                                                       "50-59" = "50-59", "60-69" = "60-69", "70+" = "70+"), inline = TRUE)  # Age categories
-      ),
-      div(class = "checkbox-group",
-          checkboxGroupInput("color", "Favorite Colour", # Pick a colour from options
-                             choices = c("Red" = "#FF0000",       # Bold red
-                                         "Yellow" = "#FFD700",    # Vibrant yellow
-                                         "Pink" = "#FF0080",      # Soft pink
-                                         "Green" = "#008000",     # Bright green
-                                         "Orange" = "#FFA500",    # Energetic orange
-                                         "Purple" = "#800080",    # Deep purple
-                                         "Blue" = "#0000FF"),      # Brilliant blue
-                             inline = TRUE)
-      ),
+      numericInput("age", "How old are you?", value = 5, min = 1, max = 100), # Numeric input for user's age
+      numericInput("blocks", "How many blocks?", value = 0, min = 0, max = 20), # How many blocks standing (1-20)
+      selectInput("color", "What's your favourite colour?", # Pick a colour from options
+                  choices = c("Red" = "#FF0000",       # Bold red
+                              "Yellow" = "#FFD700",    # Vibrant yellow
+                              "Pink" = "#FF0080",      # Soft pink
+                              "Green" = "#008000",     # Bright green
+                              "Orange" = "#FFA500",    # Energetic orange
+                              "Purple" = "#800080",    # Deep purple
+                              "Blue" = "#0000FF")),      # Brilliant blue
       actionButton("add", "Plot Data"),  # Button to Plot Data
       br(), br() , # Image displayed in the sidebar
       br(), br(),),
@@ -99,7 +92,7 @@ server <- function(input, output, session) {
   if (file.exists(tower)) {
     tower_data <- read.csv(tower)
   } else {
-    tower_data <- data.frame(Age = character(), Blocks = numeric(), Color = character())
+    tower_data <- data.frame(Age = numeric(), Blocks = numeric(), Color = character())
   }
   
   # Create a reactive dataframe to store user inputs
@@ -107,8 +100,8 @@ server <- function(input, output, session) {
   
   # Update the dataframe when the action button is clicked
   observeEvent(input$add, {
-    new_rows <- expand.grid(Age = input$age, Blocks = input$blocks, Color = input$color, stringsAsFactors = FALSE)
-    updated_data <- rbind(data(), new_rows)
+    new_row <- data.frame(Age = input$age, Blocks = input$blocks, Color = input$color, stringsAsFactors = FALSE)
+    updated_data <- rbind(data(), new_row)
     data(updated_data)
     # Save updated data to CSV
     write.csv(updated_data, tower, row.names = FALSE)
@@ -120,7 +113,7 @@ server <- function(input, output, session) {
     plot_data <- data()
     
     # Create the ggplot scatter plot
-    p <- ggplot(plot_data, aes(y = Blocks, x = Age, color = Color, text = paste("<br>Age:", Age, "<br>Blocks:", Blocks))) +
+    p <- ggplot(plot_data, aes(y = Blocks, x = factor(Age), color = Color, text = paste("<br>Age:", Age, "<br>Blocks:", Blocks))) +
       geom_point(size = 6, shape = 21, fill = plot_data$Color) + # Add points to the plot with customized size and color
       scale_color_identity() + # Use the exact color values provided (no automatic scaling)
       theme_minimal(base_size = 15) + # Apply a minimal theme to the plot

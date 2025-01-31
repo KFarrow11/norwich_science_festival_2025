@@ -45,6 +45,13 @@ ui <- fluidPage(
           font-size: 20px;  /* Set font size for action buttons */
           font-weight: bold;  /* Set text bold */
       }
+      .checkbox-group {
+          display: flex;
+          flex-wrap: wrap;
+      }
+      .checkbox-group .checkbox-inline {
+          width: 33.33%;
+      }
     "))
   ),
   
@@ -55,18 +62,23 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       class = "sidebar",  # Apply custom class for styling the sidebar
-      checkboxGroupInput("age", "How old are you?", choices = c("<=5" = "<=5", "6-10" = "6-10", "11-15" = "11-15", "16-19" = "16-19", 
-                                                                "20-24" = "20-24", "25-29" = "25-29", "30-39" = "30-39", "40-49" = "40-49", 
-                                                                "50-59" = "50-59", "60-69" = "60-69", "70+" = "70+")),  # Age categories
       sliderInput("blocks", "How many blocks?", min = 1, max = 10, value = 1), # Slider input for number of blocks
-      checkboxGroupInput("color", "What's your favourite colour?", # Pick a colour from options
-                         choices = c("Red" = "#FF0000",       # Bold red
-                                     "Yellow" = "#FFD700",    # Vibrant yellow
-                                     "Pink" = "#FF0080",      # Soft pink
-                                     "Green" = "#008000",     # Bright green
-                                     "Orange" = "#FFA500",    # Energetic orange
-                                     "Purple" = "#800080",    # Deep purple
-                                     "Blue" = "#0000FF")),      # Brilliant blue
+      div(class = "checkbox-group",
+          checkboxGroupInput("age", "Age", choices = c("<=5" = "<=5", "6-10" = "6-10", "11-15" = "11-15", "16-19" = "16-19", 
+                                                       "20-24" = "20-24", "25-29" = "25-29", "30-39" = "30-39", "40-49" = "40-49", 
+                                                       "50-59" = "50-59", "60-69" = "60-69", "70+" = "70+"), inline = TRUE)  # Age categories
+      ),
+      div(class = "checkbox-group",
+          checkboxGroupInput("color", "Favorite Colour", # Pick a colour from options
+                             choices = c("Red" = "#FF0000",       # Bold red
+                                         "Yellow" = "#FFD700",    # Vibrant yellow
+                                         "Pink" = "#FF0080",      # Soft pink
+                                         "Green" = "#008000",     # Bright green
+                                         "Orange" = "#FFA500",    # Energetic orange
+                                         "Purple" = "#800080",    # Deep purple
+                                         "Blue" = "#0000FF"),      # Brilliant blue
+                             inline = TRUE)
+      ),
       actionButton("add", "Plot Data"),  # Button to Plot Data
       br(), br() , # Image displayed in the sidebar
       br(), br(),),
@@ -128,3 +140,4 @@ server <- function(input, output, session) {
 
 # Run the Shiny app
 shinyApp(ui = ui, server = server)
+

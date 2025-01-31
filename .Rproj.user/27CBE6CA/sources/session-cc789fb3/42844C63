@@ -1,25 +1,25 @@
 {
-    "id": "3C737C32",
-    "path": "C:/Users/Katie/Desktop/R_files/masters/norwich_science_festival_2025/shiny_with_csv.R",
-    "project_path": "shiny_with_csv.R",
+    "id": "42844C63",
+    "path": "C:/Users/Katie/Desktop/R_files/masters/norwich_science_festival_2025/final_shiny.R",
+    "project_path": "final_shiny.R",
     "type": "r_source",
-    "hash": "2863694772",
+    "hash": "2317616698",
     "contents": "",
     "dirty": false,
-    "created": 1738077816070.0,
+    "created": 1738332681897.0,
     "source_on_save": false,
-    "relative_order": 4,
+    "relative_order": 3,
     "properties": {
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source"
     },
     "folds": "",
-    "lastKnownWriteTime": 1738267844,
+    "lastKnownWriteTime": 1738335574,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1738267844270,
+    "last_content_update": 1738335574581,
     "read_only": false,
     "read_only_alternatives": []
 }
