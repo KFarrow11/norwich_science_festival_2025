@@ -1,3 +1,8 @@
+# Packages ----
+library(shiny)
+library(tidyverse)
+library(plotly)
+
 ui_nsf25 <- fluidPage(
     # Define custom styles/theme for app page
     tags$head(
@@ -51,6 +56,7 @@ ui_nsf25 <- fluidPage(
     div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Matter in Tower Building?")), br(), 
     
     # Define layout of the page with a sidebar and a main panel
+    # radioButtons = checkboxes
     sidebarLayout(
       sidebarPanel(
         class = "sidebar",
