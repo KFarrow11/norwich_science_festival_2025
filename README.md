@@ -1,6 +1,13 @@
 # Norwich Science Festival 2025
 ## University of East Anglia School of Biological and Environmental Sciences Personal and Professional Development Club
 
+### Members
+- Katie Farrow
+- Freddie
+- Imie
+- Rosie
+- Emily 
+
 ### Objective
 Build the tallest possible structure using coloured blocks within the 60-second time limit.
 
