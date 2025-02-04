@@ -15,11 +15,19 @@
         "Source": "Source"
     },
     "folds": "",
+<<<<<<< Updated upstream:.Rproj.user/27CBE6CA/sources/session-63dcb344/3C737C32
     "lastKnownWriteTime": 1738168454,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
     "last_content_update": 1738169049470,
+=======
+    "lastKnownWriteTime": 1738665306,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1738665306,
+>>>>>>> Stashed changes:.Rproj.user/27CBE6CA/sources/session-3e684bcd/3C737C32
     "read_only": false,
     "read_only_alternatives": []
 }
