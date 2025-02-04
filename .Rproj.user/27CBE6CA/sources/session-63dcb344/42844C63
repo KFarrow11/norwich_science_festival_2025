@@ -14,12 +14,21 @@
         "source_window_id": "",
         "Source": "Source"
     },
+<<<<<<< Updated upstream:.Rproj.user/27CBE6CA/sources/session-63dcb344/42844C63
     "folds": "0|39|19|109|\n",
     "lastKnownWriteTime": 1738084700,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
     "last_content_update": 1738168751888,
+=======
+    "folds": "",
+    "lastKnownWriteTime": 1738665306,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1738665306,
+>>>>>>> Stashed changes:.Rproj.user/27CBE6CA/sources/session-3e684bcd/3C737C32
     "read_only": false,
     "read_only_alternatives": []
 }
