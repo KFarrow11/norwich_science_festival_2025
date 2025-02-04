@@ -5,8 +5,13 @@
     "type": "r_source",
     "hash": "2482489118",
     "contents": "",
+<<<<<<<< Updated upstream:.Rproj.user/27CBE6CA/sources/session-8c3145ea/3C737C32
     "dirty": true,
     "created": 1738077816070.0,
+========
+    "dirty": false,
+    "created": 1738267858327.0,
+>>>>>>>> Stashed changes:.Rproj.user/27CBE6CA/sources/session-63dcb344/38692A8F
     "source_on_save": false,
     "relative_order": 4,
     "properties": {
@@ -15,11 +20,19 @@
         "Source": "Source"
     },
     "folds": "",
+<<<<<<<< Updated upstream:.Rproj.user/27CBE6CA/sources/session-8c3145ea/3C737C32
     "lastKnownWriteTime": 1738168454,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
     "last_content_update": 1738169049470,
+========
+    "lastKnownWriteTime": 1738335773,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1738335773349,
+>>>>>>>> Stashed changes:.Rproj.user/27CBE6CA/sources/session-63dcb344/38692A8F
     "read_only": false,
     "read_only_alternatives": []
 }
