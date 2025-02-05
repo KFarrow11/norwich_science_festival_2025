@@ -3,10 +3,10 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
-# Yellow + Green
+# Yellow + Blue
 
 # CODE ----
-ui_nsf25_2 <- fluidPage(
+ui_nsf25_3 <- fluidPage(
   # Define custom styles/theme for app page
   tags$head(
     tags$style(HTML(" 
@@ -15,7 +15,7 @@ ui_nsf25_2 <- fluidPage(
           font-family: 'Lucida Sans Typewriter', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
-          background-color:#F8D210 ;  /* Set background color for sidebar */
+          background-color:#FAD02C;  /* Set background color for sidebar */
           padding: 20px;  /* Add padding inside the sidebar */
           border: 3px solid #000000;  /* Add border to sidebar */
           border-radius: 10px;  /* Round corners of the sidebar */
@@ -30,7 +30,7 @@ ui_nsf25_2 <- fluidPage(
           border: 3px solid #000000;  /* Add border around the title */
           border-radius: 10px;  /* Round corners of the title */
           padding: 10px;  /* Add padding inside the title */
-          background-color: #F8D210;  /* Set background color for the title */
+          background-color: #FAD02C;  /* Set background color for the title */
           box-shadow: 2px 2px 8px rgba(0,0,0,0.3);  /* Add shadow to the title */
       }
       h3 {
@@ -44,8 +44,8 @@ ui_nsf25_2 <- fluidPage(
           font-weight: bold;  /* Make paragraphs bold */
       }
       .action-button {
-          background-color:rgb(30, 60, 3);  /* Set background color for action buttons */
-          color: white;  /* Set text color for action buttons */
+          background-color:#01949A;  /* Set background color for action buttons */
+          color: black;  /* Set text color for action buttons */
           border: 3px solid #000000;  /* Add border for action buttons */
           border-radius: 5px;  /* Round corners of action buttons */
           padding: 10px 20px;  /* Add padding inside action buttons */
@@ -88,7 +88,7 @@ ui_nsf25_2 <- fluidPage(
     # Main panel to display the scatter plot
     mainPanel(
       width = 8,
-      plotlyOutput("scatterPlot", height = "600px")
+      plotlyOutput("scatterPlot", height = "600px", width = "1200px")
     )))
 
 # Server logic to handle user inputs and generate outputs
@@ -147,4 +147,4 @@ server <- function(input, output, session) {
 }
 
 # Run the Shiny app
-shinyApp(ui = ui_nsf25_2, server = server)
+shinyApp(ui = ui_nsf25_3, server = server)

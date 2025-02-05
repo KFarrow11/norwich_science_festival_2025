@@ -3,6 +3,9 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
+# Blue + Yellow
+
+# CODE ----
 ui_nsf25 <- fluidPage(
     # Define custom styles/theme for app page
     tags$head(
@@ -12,7 +15,7 @@ ui_nsf25 <- fluidPage(
           font-family: 'Lucida Sans Typewriter', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
-          background-color: #05b8d8;  /* Set background color for sidebar */
+          background-color: #01949A;  /* Set background color for sidebar */
           padding: 20px;  /* Add padding inside the sidebar */
           border: 3px solid #000000;  /* Add border to sidebar */
           border-radius: 10px;  /* Round corners of the sidebar */
@@ -27,7 +30,7 @@ ui_nsf25 <- fluidPage(
           border: 3px solid #000000;  /* Add border around the title */
           border-radius: 10px;  /* Round corners of the title */
           padding: 10px;  /* Add padding inside the title */
-          background-color: #05b8d8;  /* Set background color for the title */
+          background-color: #01949A;  /* Set background color for the title */
           box-shadow: 2px 2px 8px rgba(0,0,0,0.3);  /* Add shadow to the title */
       }
       h3 {
@@ -85,7 +88,7 @@ ui_nsf25 <- fluidPage(
       # Main panel to display the scatter plot
       mainPanel(
         width = 8,
-        plotlyOutput("scatterPlot")
+        plotlyOutput("scatterPlot", height = "600px")
       )))
   
   # Server logic to handle user inputs and generate outputs

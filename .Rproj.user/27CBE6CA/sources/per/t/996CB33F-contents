@@ -3,7 +3,10 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
-ui_nsf25 <- fluidPage(
+# Yellow + Blue
+
+# CODE ----
+ui_nsf25_4 <- fluidPage(
   # Define custom styles/theme for app page
   tags$head(
     tags$style(HTML(" 
@@ -12,7 +15,7 @@ ui_nsf25 <- fluidPage(
           font-family: 'Lucida Sans Typewriter', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
-          background-color:rgb(61, 145, 5);  /* Set background color for sidebar */
+          background-color:#FAD02C;  /* Set background color for sidebar */
           padding: 20px;  /* Add padding inside the sidebar */
           border: 3px solid #000000;  /* Add border to sidebar */
           border-radius: 10px;  /* Round corners of the sidebar */
@@ -27,7 +30,7 @@ ui_nsf25 <- fluidPage(
           border: 3px solid #000000;  /* Add border around the title */
           border-radius: 10px;  /* Round corners of the title */
           padding: 10px;  /* Add padding inside the title */
-          background-color: rgb(61, 145, 5);  /* Set background color for the title */
+          background-color: #FAD02C;  /* Set background color for the title */
           box-shadow: 2px 2px 8px rgba(0,0,0,0.3);  /* Add shadow to the title */
       }
       h3 {
@@ -41,7 +44,7 @@ ui_nsf25 <- fluidPage(
           font-weight: bold;  /* Make paragraphs bold */
       }
       .action-button {
-          background-color:rgb(186, 5, 247);  /* Set background color for action buttons */
+          background-color:#01949A;  /* Set background color for action buttons */
           color: black;  /* Set text color for action buttons */
           border: 3px solid #000000;  /* Add border for action buttons */
           border-radius: 5px;  /* Round corners of action buttons */
@@ -85,7 +88,7 @@ ui_nsf25 <- fluidPage(
     # Main panel to display the scatter plot
     mainPanel(
       width = 8,
-      plotlyOutput("scatterPlot")
+      plotlyOutput("scatterPlot", height = "600px", width = "1200px")
     )))
 
 # Server logic to handle user inputs and generate outputs
@@ -130,6 +133,16 @@ server <- function(input, output, session) {
       theme_minimal(base_size = 15) + # Apply a minimal theme to the plot
       labs(y = "Number of Blocks", x = "Age") + # Set labels for axes
       scale_y_continuous(limits = c(0, 10), breaks = 0:10) + # Set y-axis limits and breaks
+      scale_x_discrete(labels = c(
+        "Toddler (0-4)" = "Toddler", 
+        "Young Child (5-8)" = "YC", 
+        "Child (9-12)" = "Child", 
+        "Teen (13-19)" = "Teen", 
+        "Young Adult (20-35)" = "YA", 
+        "Adult (36-60)" = "Adult", 
+        "Older Adult (61-70)" = "OA", 
+        "Senior (70+)" = "Senior"
+      )) + # Rename x-axis labels
       theme(plot.title = element_text(face = "bold", size = 20, color = "#000000"), # Customize plot title style
             axis.title = element_text(face = "bold", size = 16), # Customize axis title style
             legend.position = "none", # Hide legend
@@ -139,9 +152,11 @@ server <- function(input, output, session) {
             panel.grid.minor = element_line(color = "#000000")) # Customize minor grid lines
     
     # Convert the ggplot to a Plotly object for interactivity and set custom tooltips
-    ggplotly(p, tooltip = "text")
+    ggplotly(p, tooltip = "text") %>%
+      layout(autosize = TRUE) # Enable autosize
   })
 }
 
 # Run the Shiny app
-shinyApp(ui = ui_nsf25, server = server)
+shinyApp(ui = ui_nsf25_4, server = server)
+
