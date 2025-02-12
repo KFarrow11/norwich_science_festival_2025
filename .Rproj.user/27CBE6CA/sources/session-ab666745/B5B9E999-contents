@@ -3,15 +3,13 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
-# Yellow + Blue
-
 # CODE ----
-ui_nsf25_3b <- fluidPage(
+ui_nsf25_4 <- fluidPage(
   # Define custom styles/theme for app page
   tags$head(
     tags$style(HTML(" 
       body { 
-          background-color: #C7CED6;  /* Set background color of the body */
+          background-color: #F0FFFF;  /* Set background color of the body */
           font-family: 'Lucida Sans Typewriter', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
@@ -44,7 +42,7 @@ ui_nsf25_3b <- fluidPage(
           font-weight: bold;  /* Make paragraphs bold */
       }
       .action-button {
-          background-color:#01949A;  /* Set background color for action buttons */
+          background-color:#10BC10;  /* Set background color for action buttons */
           color: black;  /* Set text color for action buttons */
           border: 3px solid #000000;  /* Add border for action buttons */
           border-radius: 5px;  /* Round corners of action buttons */
@@ -54,9 +52,12 @@ ui_nsf25_3b <- fluidPage(
       }
     "))
   ),
-  
   # Title displayed at the top of the app
   div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Effect Tower Building?")), br(), 
+  
+  #div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Effect Tower Building?"),
+  #img: uealogo2.png, style = vertical-align: middle;
+  #img: logo_black_2.png, style = vertical-align: middle;), br(),
   
   # Define layout of the page with a sidebar and a main panel
   # radioButtons = checkboxes
@@ -88,11 +89,11 @@ ui_nsf25_3b <- fluidPage(
     # Main panel to display the scatter plot
     mainPanel(
       width = 8,
-      plotlyOutput("scatterPlot", height = "600px", width = "1200px")
+      plotlyOutput("scatterPlot", height = "600px", width = "1050px")
     )))
 
 # Server logic to handle user inputs and generate outputs
-server_3b <- function(input, output, session) {
+server_4 <- function(input, output, session) {
   # Define the path for saving the inputs as a CSV
   tower <- "data/nsf2025_data_collection.csv"
   
@@ -145,18 +146,20 @@ server_3b <- function(input, output, session) {
       )) + # Rename x-axis labels
       theme(plot.title = element_text(face = "bold", size = 20, color = "#000000"), # Customize plot title style
             axis.title = element_text(face = "bold", size = 16), # Customize axis title style
+            axis.text.x = element_text(face = "bold"), # Customize x-axis text style
+            axis.text.y = element_text(face = "bold"), # Customize y-axis text style
             legend.position = "none", # Hide legend
-            panel.background = element_rect(fill = "#C7CED6"), # Set panel background color
-            plot.background = element_rect(fill = "#C7CED6"), # Set overall plot background color
+            panel.background = element_rect(fill = "#FFFAFA"), # Set panel background color
+            plot.background = element_rect(fill = "#FFFAFA"), # Set overall plot background color
             panel.grid.major = element_line(color = "#000000"), # Customize major grid lines
             panel.grid.minor = element_line(color = "#000000")) # Customize minor grid lines
     
     # Convert the ggplot to a Plotly object for interactivity and set custom tooltips
     ggplotly(p, tooltip = "text") %>%
-      layout(autosize = TRUE) # Enable autosize
+      layout(autosize = TRUE) # Enable autos
   })
 }
 
 # Run the Shiny app
-shinyApp(ui = ui_nsf25_3b, server = server_3b)
+shinyApp(ui = ui_nsf25_4, server = server_4)
 

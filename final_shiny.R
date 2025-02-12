@@ -3,7 +3,7 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
-# Blue + Yellow
+# Blue + bluegrey + orange gold
 
 # CODE ----
 ui_nsf25 <- fluidPage(
@@ -34,12 +34,12 @@ ui_nsf25 <- fluidPage(
           box-shadow: 2px 2px 8px rgba(0,0,0,0.3);  /* Add shadow to the title */
       }
       h3 {
-          color: #000000;  /* Set text color for h3 elements */
+          color: black;  /* Set text color for h3 elements */
           font-size: 20px;  /* Set font size for h3 elements */
           font-weight: bold;  /* Set text bold */
       }
       p {
-          color: #000000;  /* Set text color for paragraphs */
+          color: black;  /* Set text color for paragraphs */
           font-size: 20px;  /* Set font size for paragraphs */
           font-weight: bold;  /* Make paragraphs bold */
       }

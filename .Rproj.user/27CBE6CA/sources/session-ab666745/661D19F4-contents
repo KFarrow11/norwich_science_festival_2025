@@ -3,7 +3,7 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
-# Yellow + Green
+# appleGreen + bluegrey + gold
 
 # CODE ----
 ui_nsf25_2 <- fluidPage(
@@ -15,7 +15,7 @@ ui_nsf25_2 <- fluidPage(
           font-family: 'Lucida Sans Typewriter', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
-          background-color:#F8D210 ;  /* Set background color for sidebar */
+          background-color: #C3E0E5;  /* Set background color for sidebar */
           padding: 20px;  /* Add padding inside the sidebar */
           border: 3px solid #000000;  /* Add border to sidebar */
           border-radius: 10px;  /* Round corners of the sidebar */
@@ -30,21 +30,21 @@ ui_nsf25_2 <- fluidPage(
           border: 3px solid #000000;  /* Add border around the title */
           border-radius: 10px;  /* Round corners of the title */
           padding: 10px;  /* Add padding inside the title */
-          background-color: #F8D210;  /* Set background color for the title */
+          background-color: #6ECB5A;  /* Set background color for the title */
           box-shadow: 2px 2px 8px rgba(0,0,0,0.3);  /* Add shadow to the title */
       }
       h3 {
-          color: #000000;  /* Set text color for h3 elements */
+          color: black;  /* Set text color for h3 elements */
           font-size: 20px;  /* Set font size for h3 elements */
           font-weight: bold;  /* Set text bold */
       }
       p {
-          color: #000000;  /* Set text color for paragraphs */
+          color: black;  /* Set text color for paragraphs */
           font-size: 20px;  /* Set font size for paragraphs */
           font-weight: bold;  /* Make paragraphs bold */
       }
       .action-button {
-          background-color: #5CD85A;  /* Set background color for action buttons */
+          background-color: #FFA500;  /* Set background color for action buttons */
           color: black;  /* Set text color for action buttons */
           border: 3px solid #000000;  /* Add border for action buttons */
           border-radius: 5px;  /* Round corners of action buttons */
@@ -56,7 +56,7 @@ ui_nsf25_2 <- fluidPage(
   ),
   
   # Title displayed at the top of the app
-  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Effect Tower Building?")), br(), 
+  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Matter in Tower Building?")), br(), 
   
   # Define layout of the page with a sidebar and a main panel
   # radioButtons = checkboxes
@@ -88,7 +88,7 @@ ui_nsf25_2 <- fluidPage(
     # Main panel to display the scatter plot
     mainPanel(
       width = 8,
-      plotlyOutput("scatterPlot", height = "600px")
+      plotlyOutput("scatterPlot", height = "600px", width = "1200px")
     )))
 
 # Server logic to handle user inputs and generate outputs

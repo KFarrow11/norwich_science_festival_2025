@@ -9,11 +9,11 @@ ui_nsf25_4 <- fluidPage(
   tags$head(
     tags$style(HTML(" 
       body { 
-          background-color: #FFFAFA;  /* Set background color of the body */
+          background-color: #F0FFFF;  /* Set background color of the body */
           font-family: 'Lucida Sans Typewriter', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
-          background-color: #5bc788;  /* Set background color for sidebar */
+          background-color:#FAD02C;  /* Set background color for sidebar */
           padding: 20px;  /* Add padding inside the sidebar */
           border: 3px solid #000000;  /* Add border to sidebar */
           border-radius: 10px;  /* Round corners of the sidebar */
@@ -28,15 +28,8 @@ ui_nsf25_4 <- fluidPage(
           border: 3px solid #000000;  /* Add border around the title */
           border-radius: 10px;  /* Round corners of the title */
           padding: 10px;  /* Add padding inside the title */
-          background-color: #ffd700;  /* Set background color for the title */
+          background-color: #FAD02C;  /* Set background color for the title */
           box-shadow: 2px 2px 8px rgba(0,0,0,0.3);  /* Add shadow to the title */
-          display: flex;  /* Enable flexbox layout */
-          justify-content: space-between;  /* Distribute space evenly between items */
-          align-items: center;  /* Align items vertically in the center */
-          img: uealogo2.png, style = vertical-align: middle;
-          HTML: Speedy Skyscrapers<br>Does Age Effect Tower Building?, style = flex-grow: 1; text-align: center;
-          img: logo_black_2.png, style = vertical-align: middle;
-          
       }
       h3 {
           color: #000000;  /* Set text color for h3 elements */
@@ -49,7 +42,7 @@ ui_nsf25_4 <- fluidPage(
           font-weight: bold;  /* Make paragraphs bold */
       }
       .action-button {
-          background-color: #CAE1FF;  /* Set background color for action buttons */
+          background-color:#10BC10;  /* Set background color for action buttons */
           color: black;  /* Set text color for action buttons */
           border: 3px solid #000000;  /* Add border for action buttons */
           border-radius: 5px;  /* Round corners of action buttons */
@@ -59,13 +52,12 @@ ui_nsf25_4 <- fluidPage(
       }
     "))
   ),
-  
   # Title displayed at the top of the app
-  div(class = "title", 
-      div(HTML("Speedy Skyscrapers<br>Does Age Effect Tower Building?"), style = "flex-grow: 1; text-align: center;"),
-  )
+  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Effect Tower Building?")), br(), 
   
-, br(),
+  #div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Effect Tower Building?"),
+  #img: uealogo2.png, style = vertical-align: middle;
+  #img: logo_black_2.png, style = vertical-align: middle;), br(),
   
   # Define layout of the page with a sidebar and a main panel
   # radioButtons = checkboxes

@@ -3,7 +3,7 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
-# Yellow + Blue
+# Green + yellow + grey
 
 # CODE ----
 ui_nsf25_3 <- fluidPage(
@@ -11,11 +11,11 @@ ui_nsf25_3 <- fluidPage(
   tags$head(
     tags$style(HTML(" 
       body { 
-          background-color: #C7CED6;  /* Set background color of the body */
+          background-color: #F0FFFF;  /* Set background color of the body */
           font-family: 'Lucida Sans Typewriter', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
-          background-color:#FAD02C;  /* Set background color for sidebar */
+          background-color: #FEDE00;  /* Set background color for sidebar */
           padding: 20px;  /* Add padding inside the sidebar */
           border: 3px solid #000000;  /* Add border to sidebar */
           border-radius: 10px;  /* Round corners of the sidebar */
@@ -23,30 +23,30 @@ ui_nsf25_3 <- fluidPage(
           font-weight: bold;  /* Make sidebar text bold */
       }
       .title {
-          color: #000000;  /* Set text color for title */
+          color: white;  /* Set text color for title */
           font-size: 40px;  /* Set font size for title */
           font-weight: bold;  /* Make title bold */
           text-align: center;  /* Center-align the title text */
-          border: 3px solid #000000;  /* Add border around the title */
+          border: 3px solid #0A7029;  /* Add border around the title */
           border-radius: 10px;  /* Round corners of the title */
           padding: 10px;  /* Add padding inside the title */
-          background-color: #FAD02C;  /* Set background color for the title */
+          background-color: #0A7029;  /* Set background color for the title */
           box-shadow: 2px 2px 8px rgba(0,0,0,0.3);  /* Add shadow to the title */
       }
       h3 {
-          color: #000000;  /* Set text color for h3 elements */
+          color: black;  /* Set text color for h3 elements */
           font-size: 20px;  /* Set font size for h3 elements */
           font-weight: bold;  /* Set text bold */
       }
       p {
-          color: #000000;  /* Set text color for paragraphs */
+          color: black;  /* Set text color for paragraphs */
           font-size: 20px;  /* Set font size for paragraphs */
           font-weight: bold;  /* Make paragraphs bold */
       }
       .action-button {
-          background-color:#01949A;  /* Set background color for action buttons */
+          background-color: #90ADC6;  /* Set background color for action buttons */
           color: black;  /* Set text color for action buttons */
-          border: 3px solid #000000;  /* Add border for action buttons */
+          border: 3px solid #90ADC6;  /* Add border for action buttons */
           border-radius: 5px;  /* Round corners of action buttons */
           padding: 10px 20px;  /* Add padding inside action buttons */
           font-size: 20px;  /* Set font size for action buttons */
@@ -56,7 +56,7 @@ ui_nsf25_3 <- fluidPage(
   ),
   
   # Title displayed at the top of the app
-  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Effect Tower Building?")), br(), 
+  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Matter in Tower Building?")), br(), 
   
   # Define layout of the page with a sidebar and a main panel
   # radioButtons = checkboxes
@@ -133,16 +133,29 @@ server <- function(input, output, session) {
       theme_minimal(base_size = 15) + # Apply a minimal theme to the plot
       labs(y = "Number of Blocks", x = "Age") + # Set labels for axes
       scale_y_continuous(limits = c(0, 10), breaks = 0:10) + # Set y-axis limits and breaks
+      scale_x_discrete(labels = c(
+        "Toddler (0-4)" = "Toddler", 
+        "Young Child (5-8)" = "YC", 
+        "Child (9-12)" = "Child", 
+        "Teen (13-19)" = "Teen", 
+        "Young Adult (20-35)" = "YA", 
+        "Adult (36-60)" = "Adult", 
+        "Older Adult (61-70)" = "OA", 
+        "Senior (70+)" = "Senior"
+      )) + # Rename x-axis labels
       theme(plot.title = element_text(face = "bold", size = 20, color = "#000000"), # Customize plot title style
             axis.title = element_text(face = "bold", size = 16), # Customize axis title style
+            axis.text.x = element_text(face = "bold"), # Customize x-axis text style
+            axis.text.y = element_text(face = "bold"), # Customize y-axis text style
             legend.position = "none", # Hide legend
-            panel.background = element_rect(fill = "#C7CED6"), # Set panel background color
-            plot.background = element_rect(fill = "#C7CED6"), # Set overall plot background color
+            panel.background = element_rect(fill = "#F0FFFF"), # Set panel background color
+            plot.background = element_rect(fill = "#F0FFFF"), # Set overall plot background color
             panel.grid.major = element_line(color = "#000000"), # Customize major grid lines
             panel.grid.minor = element_line(color = "#000000")) # Customize minor grid lines
     
     # Convert the ggplot to a Plotly object for interactivity and set custom tooltips
-    ggplotly(p, tooltip = "text")
+    ggplotly(p, tooltip = "text") %>%
+      layout(autosize = TRUE) # Enable autosize
   })
 }
 
