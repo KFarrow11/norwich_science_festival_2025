@@ -11,7 +11,7 @@ ui_nsf25_2 <- fluidPage(
   tags$head(
     tags$style(HTML(" 
       body { 
-          background-color: #C7CED6;  /* Set background color of the body */
+          background-color: #F0FFFF;  /* Set background color of the body */
           font-family: 'Lucida Sans Typewriter', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
@@ -44,8 +44,8 @@ ui_nsf25_2 <- fluidPage(
           font-weight: bold;  /* Make paragraphs bold */
       }
       .action-button {
-          background-color:rgb(30, 60, 3);  /* Set background color for action buttons */
-          color: white;  /* Set text color for action buttons */
+          background-color: #5CD85A;  /* Set background color for action buttons */
+          color: black;  /* Set text color for action buttons */
           border: 3px solid #000000;  /* Add border for action buttons */
           border-radius: 5px;  /* Round corners of action buttons */
           padding: 10px 20px;  /* Add padding inside action buttons */
@@ -133,16 +133,29 @@ server <- function(input, output, session) {
       theme_minimal(base_size = 15) + # Apply a minimal theme to the plot
       labs(y = "Number of Blocks", x = "Age") + # Set labels for axes
       scale_y_continuous(limits = c(0, 10), breaks = 0:10) + # Set y-axis limits and breaks
+      scale_x_discrete(labels = c(
+        "Toddler (0-4)" = "Toddler", 
+        "Young Child (5-8)" = "YC", 
+        "Child (9-12)" = "Child", 
+        "Teen (13-19)" = "Teen", 
+        "Young Adult (20-35)" = "YA", 
+        "Adult (36-60)" = "Adult", 
+        "Older Adult (61-70)" = "OA", 
+        "Senior (70+)" = "Senior"
+      )) + # Rename x-axis labels
       theme(plot.title = element_text(face = "bold", size = 20, color = "#000000"), # Customize plot title style
             axis.title = element_text(face = "bold", size = 16), # Customize axis title style
+            axis.text.x = element_text(face = "bold"), # Customize x-axis text style
+            axis.text.y = element_text(face = "bold"), # Customize y-axis text style
             legend.position = "none", # Hide legend
-            panel.background = element_rect(fill = "#C7CED6"), # Set panel background color
-            plot.background = element_rect(fill = "#C7CED6"), # Set overall plot background color
+            panel.background = element_rect(fill = "#F0FFFF"), # Set panel background color
+            plot.background = element_rect(fill = "#F0FFFF"), # Set overall plot background color
             panel.grid.major = element_line(color = "#000000"), # Customize major grid lines
             panel.grid.minor = element_line(color = "#000000")) # Customize minor grid lines
     
     # Convert the ggplot to a Plotly object for interactivity and set custom tooltips
-    ggplotly(p, tooltip = "text")
+    ggplotly(p, tooltip = "text") %>%
+      layout(autosize = TRUE) # Enable autosize
   })
 }
 

@@ -3,19 +3,17 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
-# Yellow + Green
-
 # CODE ----
-ui_nsf25_2 <- fluidPage(
+ui_nsf25_4 <- fluidPage(
   # Define custom styles/theme for app page
   tags$head(
     tags$style(HTML(" 
       body { 
-          background-color: #F0FFFF;  /* Set background color of the body */
+          background-color: #FFFAFA;  /* Set background color of the body */
           font-family: 'Lucida Sans Typewriter', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
-          background-color:#F8D210 ;  /* Set background color for sidebar */
+          background-color: #5bc788;  /* Set background color for sidebar */
           padding: 20px;  /* Add padding inside the sidebar */
           border: 3px solid #000000;  /* Add border to sidebar */
           border-radius: 10px;  /* Round corners of the sidebar */
@@ -30,8 +28,15 @@ ui_nsf25_2 <- fluidPage(
           border: 3px solid #000000;  /* Add border around the title */
           border-radius: 10px;  /* Round corners of the title */
           padding: 10px;  /* Add padding inside the title */
-          background-color: #F8D210;  /* Set background color for the title */
+          background-color: #ffd700;  /* Set background color for the title */
           box-shadow: 2px 2px 8px rgba(0,0,0,0.3);  /* Add shadow to the title */
+          display: flex;  /* Enable flexbox layout */
+          justify-content: space-between;  /* Distribute space evenly between items */
+          align-items: center;  /* Align items vertically in the center */
+          img: uealogo2.png, style = vertical-align: middle;
+          HTML: Speedy Skyscrapers<br>Does Age Effect Tower Building?, style = flex-grow: 1; text-align: center;
+          img: logo_black_2.png, style = vertical-align: middle;
+          
       }
       h3 {
           color: #000000;  /* Set text color for h3 elements */
@@ -44,7 +49,7 @@ ui_nsf25_2 <- fluidPage(
           font-weight: bold;  /* Make paragraphs bold */
       }
       .action-button {
-          background-color: #5CD85A;  /* Set background color for action buttons */
+          background-color: #CAE1FF;  /* Set background color for action buttons */
           color: black;  /* Set text color for action buttons */
           border: 3px solid #000000;  /* Add border for action buttons */
           border-radius: 5px;  /* Round corners of action buttons */
@@ -56,7 +61,11 @@ ui_nsf25_2 <- fluidPage(
   ),
   
   # Title displayed at the top of the app
-  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Effect Tower Building?")), br(), 
+  div(class = "title", 
+      div(HTML("Speedy Skyscrapers<br>Does Age Effect Tower Building?"), style = "flex-grow: 1; text-align: center;"),
+  )
+  
+, br(),
   
   # Define layout of the page with a sidebar and a main panel
   # radioButtons = checkboxes
@@ -88,11 +97,11 @@ ui_nsf25_2 <- fluidPage(
     # Main panel to display the scatter plot
     mainPanel(
       width = 8,
-      plotlyOutput("scatterPlot", height = "600px")
+      plotlyOutput("scatterPlot", height = "600px", width = "1050px")
     )))
 
 # Server logic to handle user inputs and generate outputs
-server <- function(input, output, session) {
+server_4 <- function(input, output, session) {
   # Define the path for saving the inputs as a CSV
   tower <- "data/nsf2025_data_collection.csv"
   
@@ -148,16 +157,17 @@ server <- function(input, output, session) {
             axis.text.x = element_text(face = "bold"), # Customize x-axis text style
             axis.text.y = element_text(face = "bold"), # Customize y-axis text style
             legend.position = "none", # Hide legend
-            panel.background = element_rect(fill = "#F0FFFF"), # Set panel background color
-            plot.background = element_rect(fill = "#F0FFFF"), # Set overall plot background color
+            panel.background = element_rect(fill = "#FFFAFA"), # Set panel background color
+            plot.background = element_rect(fill = "#FFFAFA"), # Set overall plot background color
             panel.grid.major = element_line(color = "#000000"), # Customize major grid lines
             panel.grid.minor = element_line(color = "#000000")) # Customize minor grid lines
     
     # Convert the ggplot to a Plotly object for interactivity and set custom tooltips
     ggplotly(p, tooltip = "text") %>%
-      layout(autosize = TRUE) # Enable autosize
+      layout(autosize = TRUE) # Enable autos
   })
 }
 
 # Run the Shiny app
-shinyApp(ui = ui_nsf25_2, server = server)
+shinyApp(ui = ui_nsf25_4, server = server_4)
+

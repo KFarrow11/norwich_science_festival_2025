@@ -1,25 +1,25 @@
 {
-    "id": "996CB33F",
-    "path": "C:/Users/Katie/Desktop/R_files/masters/norwich_science_festival_2025/final_3b.R",
-    "project_path": "final_3b.R",
+    "id": "B5B9E999",
+    "path": "C:/Users/Katie/Desktop/R_files/masters/norwich_science_festival_2025/final_4_image.R",
+    "project_path": "final_4_image.R",
     "type": "r_source",
-    "hash": "1559666078",
+    "hash": "347456622",
     "contents": "",
     "dirty": false,
-    "created": 1738774761559.0,
+    "created": 1738921257987.0,
     "source_on_save": false,
-    "relative_order": 7,
+    "relative_order": 6,
     "properties": {
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source"
     },
     "folds": "",
-    "lastKnownWriteTime": 1738774942,
+    "lastKnownWriteTime": 1739303928,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1738774942912,
+    "last_content_update": 1739303928910,
     "read_only": false,
     "read_only_alternatives": []
 }
