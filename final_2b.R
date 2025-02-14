@@ -3,10 +3,10 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
-# Yellow + yellow + green
+# Green + brown + Green
 
 # CODE ----
-ui_nsf25_4 <- fluidPage(
+ui_nsf25_2 <- fluidPage(
   # Define custom styles/theme for app page
   tags$head(
     tags$style(HTML(" 
@@ -15,22 +15,22 @@ ui_nsf25_4 <- fluidPage(
           font-family: 'Lucida Sans Typewriter', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
-          background-color:#FAD02C;  /* Set background color for sidebar */
+          background-color: #FFA500;  /* Set background color for sidebar */
           padding: 20px;  /* Add padding inside the sidebar */
-          border: 3px solid #81B622;  /* Add border to sidebar */
+          border: 3px solid #000000;  /* Add border to sidebar */
           border-radius: 10px;  /* Round corners of the sidebar */
           font-size: 20px;  /* Set font size for sidebar text */
           font-weight: bold;  /* Make sidebar text bold */
       }
       .title {
-          color: black;  /* Set text color for title */
+          color: #000000;  /* Set text color for title */
           font-size: 40px;  /* Set font size for title */
           font-weight: bold;  /* Make title bold */
           text-align: center;  /* Center-align the title text */
-          border: 3px solid #81B622;  /* Add border around the title */
+          border: 5px solid #E4D7CF;  /* Add border around the title */
           border-radius: 10px;  /* Round corners of the title */
           padding: 10px;  /* Add padding inside the title */
-          background-color: #FAD02C;  /* Set background color for the title */
+          background-color: #489C17;  /* Set background color for the title */
           box-shadow: 2px 2px 8px rgba(0,0,0,0.3);  /* Add shadow to the title */
       }
       h3 {
@@ -44,9 +44,9 @@ ui_nsf25_4 <- fluidPage(
           font-weight: bold;  /* Make paragraphs bold */
       }
       .action-button {
-          background-color:#59981A;  /* Set background color for action buttons */
-          color: white;  /* Set text color for action buttons */
-          border: 3px solid #59981A;  /* Add border for action buttons */
+          background-color: #489C17;  /* Set background color for action buttons */
+          color: black;  /* Set text color for action buttons */
+          border: 3px solid black;  /* Add border for action buttons */
           border-radius: 5px;  /* Round corners of action buttons */
           padding: 10px 20px;  /* Add padding inside action buttons */
           font-size: 20px;  /* Set font size for action buttons */
@@ -56,7 +56,7 @@ ui_nsf25_4 <- fluidPage(
   ),
   
   # Title displayed at the top of the app
-  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Effect Tower Building?")), br(), 
+  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Matter in Tower Building?")), br(), 
   
   # Define layout of the page with a sidebar and a main panel
   # radioButtons = checkboxes
@@ -145,6 +145,8 @@ server <- function(input, output, session) {
       )) + # Rename x-axis labels
       theme(plot.title = element_text(face = "bold", size = 20, color = "#000000"), # Customize plot title style
             axis.title = element_text(face = "bold", size = 16), # Customize axis title style
+            axis.text.x = element_text(face = "bold"), # Customize x-axis text style
+            axis.text.y = element_text(face = "bold"), # Customize y-axis text style
             legend.position = "none", # Hide legend
             panel.background = element_rect(fill = "#F0FFFF"), # Set panel background color
             plot.background = element_rect(fill = "#F0FFFF"), # Set overall plot background color
@@ -158,5 +160,4 @@ server <- function(input, output, session) {
 }
 
 # Run the Shiny app
-shinyApp(ui = ui_nsf25_4, server = server)
-
+shinyApp(ui = ui_nsf25_2, server = server)

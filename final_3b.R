@@ -3,7 +3,7 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
-# Green + Yellow + Green = NORWICH CITY
+# Green + Yellow + Green
 
 # CODE ----
 ui_nsf25_3 <- fluidPage(

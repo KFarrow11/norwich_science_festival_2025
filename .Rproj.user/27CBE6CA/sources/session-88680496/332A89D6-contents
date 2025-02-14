@@ -94,7 +94,7 @@ ui_nsf25_5 <- fluidPage(
 # Server logic to handle user inputs and generate outputs
 server <- function(input, output, session) {
   # Define the path for saving the inputs as a CSV
-  tower <- "data/nsf2025_data_collection.csv"
+  tower <- "data/nsf2025_data_collection_b.csv"
   
   # Load existing data if it exists
   if (file.exists(tower)) {

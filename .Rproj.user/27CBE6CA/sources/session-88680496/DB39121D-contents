@@ -3,7 +3,7 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
-# Green + Yellow + Green = NORWICH CITY
+# Green + yellow + grey
 
 # CODE ----
 ui_nsf25_3 <- fluidPage(
@@ -17,17 +17,17 @@ ui_nsf25_3 <- fluidPage(
       .sidebar {
           background-color: #FEDE00;  /* Set background color for sidebar */
           padding: 20px;  /* Add padding inside the sidebar */
-          border: 5px solid #000000;  /* Add border to sidebar */
+          border: 3px solid #000000;  /* Add border to sidebar */
           border-radius: 10px;  /* Round corners of the sidebar */
           font-size: 20px;  /* Set font size for sidebar text */
           font-weight: bold;  /* Make sidebar text bold */
       }
       .title {
-          color: #FEDE00;  /* Set text color for title */
+          color: white;  /* Set text color for title */
           font-size: 40px;  /* Set font size for title */
           font-weight: bold;  /* Make title bold */
           text-align: center;  /* Center-align the title text */
-          border: 6px solid #E2B808;  /* Add border around the title */
+          border: 3px solid #0A7029;  /* Add border around the title */
           border-radius: 10px;  /* Round corners of the title */
           padding: 10px;  /* Add padding inside the title */
           background-color: #0A7029;  /* Set background color for the title */
@@ -44,9 +44,9 @@ ui_nsf25_3 <- fluidPage(
           font-weight: bold;  /* Make paragraphs bold */
       }
       .action-button {
-          background-color: #0A7029;  /* Set background color for action buttons */
-          color: white;  /* Set text color for action buttons */
-          border: 3px solid black;  /* Add border for action buttons */
+          background-color: #90ADC6;  /* Set background color for action buttons */
+          color: black;  /* Set text color for action buttons */
+          border: 3px solid #90ADC6;  /* Add border for action buttons */
           border-radius: 5px;  /* Round corners of action buttons */
           padding: 10px 20px;  /* Add padding inside action buttons */
           font-size: 20px;  /* Set font size for action buttons */
@@ -94,7 +94,7 @@ ui_nsf25_3 <- fluidPage(
 # Server logic to handle user inputs and generate outputs
 server <- function(input, output, session) {
   # Define the path for saving the inputs as a CSV
-  tower <- "data/nsf2025_data_collection.csv"
+  tower <- "data/nsf2025_data_collection_b.csv"
   
   # Load existing data if it exists
   if (file.exists(tower)) {
