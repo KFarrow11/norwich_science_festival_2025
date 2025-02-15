@@ -94,7 +94,7 @@ ui_nsf25 <- fluidPage(
 # Server logic to handle user inputs and generate outputs
 server <- function(input, output, session) {
   # Define the path for saving the inputs as a CSV
-  tower <- "data/nsf2025_data_collection.csv"
+  tower <- "data/nsf2025_data_collection_1.csv"
   
   # Load existing data if it exists
   if (file.exists(tower)) {
@@ -129,9 +129,10 @@ server <- function(input, output, session) {
     # Create the ggplot scatter plot
     p <- ggplot(plot_data, aes(y = Blocks, x = Age, color = Color, text = paste("<br>Age:", Age, "<br>Blocks:", Blocks))) +
       geom_point(size = 6, shape = 21, fill = plot_data$Color) + # Add points to the plot with customized size and color
+      geom_jitter() +
       scale_color_identity() + # Use the exact color values provided (no automatic scaling)
       theme_minimal(base_size = 15) + # Apply a minimal theme to the plot
-      labs(y = "Number of Blocks", x = "Age") + # Set labels for axes
+      labs(y = "Number of Blocks (HEIGHT)", x = "Age") + # Set labels for axes
       scale_y_continuous(limits = c(0, 10), breaks = 0:10) + # Set y-axis limits and breaks
       scale_x_discrete(labels = c(
         "Toddler (0-4)" = "Toddler", 

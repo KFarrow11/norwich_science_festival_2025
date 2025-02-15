@@ -3,34 +3,35 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
-# Blue + bluegrey + orange gold
+# Green + Yellow + Green = NORWICH CITY
 
 # CODE ----
-ui_nsf25 <- fluidPage(
-    # Define custom styles/theme for app page
-    tags$head(
-      tags$style(HTML(" 
+ui_nsf25_3 <- fluidPage(
+  # Define custom styles/theme for app page
+  tags$head(
+    tags$style(HTML(" 
       body { 
           background-color: #F0FFFF;  /* Set background color of the body */
           font-family: 'Lucida Sans Typewriter', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
-          background-color: #82A4E3;  /* Set background color for sidebar */
+          background-color: #FEDE00;  /* Set background color for sidebar */
           padding: 20px;  /* Add padding inside the sidebar */
-          border: 3px solid #000000;  /* Add border to sidebar */
+          border: 5px solid #000000;  /* Add border to sidebar */
           border-radius: 10px;  /* Round corners of the sidebar */
           font-size: 20px;  /* Set font size for sidebar text */
           font-weight: bold;  /* Make sidebar text bold */
+          width: 450px;  /* Set the width of the sidebar */
       }
       .title {
-          color: #000000;  /* Set text color for title */
+          color: #FEDE00;  /* Set text color for title */
           font-size: 40px;  /* Set font size for title */
           font-weight: bold;  /* Make title bold */
           text-align: center;  /* Center-align the title text */
-          border: 3px solid #000000;  /* Add border around the title */
+          border: 6px solid #E2B808;  /* Add border around the title */
           border-radius: 10px;  /* Round corners of the title */
           padding: 10px;  /* Add padding inside the title */
-          background-color: #04ECF0;  /* Set background color for the title */
+          background-color: #0A7029;  /* Set background color for the title */
           box-shadow: 2px 2px 8px rgba(0,0,0,0.3);  /* Add shadow to the title */
       }
       h3 {
@@ -44,57 +45,58 @@ ui_nsf25 <- fluidPage(
           font-weight: bold;  /* Make paragraphs bold */
       }
       .action-button {
-          background-color: #FFA500;  /* Set background color for action buttons */
-          color: black;  /* Set text color for action buttons */
-          border: 3px solid #000000;  /* Add border for action buttons */
+          background-color: #0A7029;  /* Set background color for action buttons */
+          color: white;  /* Set text color for action buttons */
+          border: 3px solid black;  /* Add border for action buttons */
           border-radius: 5px;  /* Round corners of action buttons */
           padding: 10px 20px;  /* Add padding inside action buttons */
           font-size: 20px;  /* Set font size for action buttons */
           font-weight: bold;  /* Set text bold */
       }
     "))
+  ),
+  
+  # Title displayed at the top of the app
+  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Matter in Tower Building?")), br(), 
+  
+  # Define layout of the page with a sidebar and a main panel
+  # radioButtons = checkboxes
+  sidebarLayout(
+    sidebarPanel(
+      class = "sidebar",
+      sliderInput("blocks", "Number of Blocks (HEIGHT)?", min = 1, max = 10, value = 1), 
+      radioButtons("age", "Age", 
+                   choices = c("Toddler (0-4)" = "Toddler (0-4)", 
+                               "Young Child (5-8)" = "Young Child (5-8)",
+                               "Child (9-12)" = "Child (9-12)", 
+                               "Teen (13-19)" = "Teen (13-19)",
+                               "Young Adult (20-35)" = "Young Adult (20-35)", 
+                               "Adult (36-60)" = "Adult (36-60)",
+                               "Older Adult (61-70)" = "Older Adult (61-70)", 
+                               "Senior (70+)" = "Senior (70+)")),
+      radioButtons("color", "Favorite Colour", 
+                   choices = c("Red" = "#FF0000", 
+                               "Yellow" = "#FFD700", 
+                               "Pink" = "#FF0080", 
+                               "Green" = "#008000", 
+                               "Orange" = "#FFA500", 
+                               "Purple" = "#800080", 
+                               "Blue" = "#0000FF")),
+      actionButton("add", "Plot Data"),
+      br(), br(),
     ),
     
-    # Title displayed at the top of the app
-    div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Matter in Tower Building?")), br(), 
-    
-    # Define layout of the page with a sidebar and a main panel
-    # radioButtons = checkboxes
-    sidebarLayout(
-      sidebarPanel(
-        class = "sidebar",
-        sliderInput("blocks", "How many blocks?", min = 1, max = 10, value = 1), 
-        radioButtons("age", "Age", 
-                     choices = c("Toddler (0-4)" = "Toddler (0-4)", 
-                                 "Young Child (5-8)" = "Young Child (5-8)",
-                                 "Child (9-12)" = "Child (9-12)", 
-                                 "Teen (13-19)" = "Teen (13-19)",
-                                 "Young Adult (20-35)" = "Young Adult (20-35)", 
-                                 "Adult (36-60)" = "Adult (36-60)",
-                                 "Older Adult (61-70)" = "Older Adult (61-70)", 
-                                 "Senior (70+)" = "Senior (70+)")),
-        radioButtons("color", "Favorite Colour", 
-                     choices = c("Red" = "#FF0000", 
-                                 "Yellow" = "#FFD700", 
-                                 "Pink" = "#FF0080", 
-                                 "Green" = "#008000", 
-                                 "Orange" = "#FFA500", 
-                                 "Purple" = "#800080", 
-                                 "Blue" = "#0000FF")),
-        actionButton("add", "Plot Data"),
-        br(), br(),
-      ),
-      
-      # Main panel to display the scatter plot
-      mainPanel(
-        width = 8,
-        plotlyOutput("scatterPlot", height = "600px", width = "1200px")
-      )))
+    # Main panel to display the scatter plot
+    mainPanel(
+      width = 8,  # Increase the width of the main panel
+      plotlyOutput("scatterPlot", width = "100%", height = "750px")
+    )))
 
 # Server logic to handle user inputs and generate outputs
 server <- function(input, output, session) {
   # Define the path for saving the inputs as a CSV
-  tower <- "data/nsf2025_data_collection_2.csv"
+  tower <- "data/nsf2025_data_collection_1.csv" # Saturday = 191 entries
+  #tower <- "data/nsf2025_data_collection_2.csv" # Sunday
   
   # Load existing data if it exists
   if (file.exists(tower)) {
@@ -128,10 +130,11 @@ server <- function(input, output, session) {
     
     # Create the ggplot scatter plot
     p <- ggplot(plot_data, aes(y = Blocks, x = Age, color = Color, text = paste("<br>Age:", Age, "<br>Blocks:", Blocks))) +
-      geom_point(size = 6, shape = 21, fill = plot_data$Color) + # Add points to the plot with customized size and color
+      geom_point(size = 5, shape = 21, fill = plot_data$Color) + # Add points to the plot with customized size and color
+      geom_jitter(size = 3, shape = 4, fill = plot_data$Color, width = 0.2, height = 0.2) + # Add points to the plot with customized size and color, and change shape to cross
       scale_color_identity() + # Use the exact color values provided (no automatic scaling)
       theme_minimal(base_size = 15) + # Apply a minimal theme to the plot
-      labs(y = "Number of Blocks", x = "Age") + # Set labels for axes
+      labs(y = "Number of Blocks (HEIGHT)", x = "Age") + # Set labels for axes
       scale_y_continuous(limits = c(0, 10), breaks = 0:10) + # Set y-axis limits and breaks
       scale_x_discrete(labels = c(
         "Toddler (0-4)" = "Toddler", 
@@ -151,14 +154,14 @@ server <- function(input, output, session) {
             panel.background = element_rect(fill = "#F0FFFF"), # Set panel background color
             plot.background = element_rect(fill = "#F0FFFF"), # Set overall plot background color
             panel.grid.major = element_line(color = "#000000"), # Customize major grid lines
-            panel.grid.minor = element_line(color = "#000000")) # Customize minor grid lines
+            panel.grid.minor = element_line(color = "#000000"), # Customize minor grid lines
+            plot.margin = unit(c(1, 1, 1, 1), "cm")) # Adjust the left margin
     
     # Convert the ggplot to a Plotly object for interactivity and set custom tooltips
     ggplotly(p, tooltip = "text") %>%
       layout(autosize = TRUE) # Enable autosize
   })
 }
-  
-  # Run the Shiny app
-  shinyApp(ui = ui_nsf25, server = server) 
-  
+
+# Run the Shiny app
+shinyApp(ui = ui_nsf25_3, server = server)
