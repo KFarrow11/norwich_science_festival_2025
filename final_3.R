@@ -95,7 +95,7 @@ ui_nsf25_3 <- fluidPage(
 server <- function(input, output, session) {
   # Define the path for saving the inputs as a CSV
   tower <- "data/nsf2025_data_collection_1.csv" # Saturday = 191 entries
-  #tower <- "data/nsf2025_data_collection_2.csv" # Sunday
+  #tower <- "data/nsf2025_data_collection_1.csv" # Sunday = 212 entries
   
   # Load existing data if it exists
   if (file.exists(tower)) {

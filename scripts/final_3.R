@@ -3,10 +3,10 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
-# blue + grey + orange
+# Green + Yellow + Green = NORWICH CITY
 
 # CODE ----
-ui_nsf25_5 <- fluidPage(
+ui_nsf25_3 <- fluidPage(
   # Define custom styles/theme for app page
   tags$head(
     tags$style(HTML(" 
@@ -15,22 +15,22 @@ ui_nsf25_5 <- fluidPage(
           font-family: 'Lucida Sans Typewriter', Monaco, monospace;  /* Set font family for the page */
       }
       .sidebar {
-          background-color:#C7D7DE;  /* Set background color for sidebar */
+          background-color: #FEDE00;  /* Set background color for sidebar */
           padding: 20px;  /* Add padding inside the sidebar */
-          border: 3px solid #F9521E;  /* Add border to sidebar */
+          border: 5px solid #000000;  /* Add border to sidebar */
           border-radius: 10px;  /* Round corners of the sidebar */
           font-size: 20px;  /* Set font size for sidebar text */
           font-weight: bold;  /* Make sidebar text bold */
       }
       .title {
-          color: #F9521E;  /* Set text color for title */
+          color: #FEDE00;  /* Set text color for title */
           font-size: 40px;  /* Set font size for title */
           font-weight: bold;  /* Make title bold */
           text-align: center;  /* Center-align the title text */
-          border: 3px solid #F9521E;  /* Add border around the title */
+          border: 6px solid #E2B808;  /* Add border around the title */
           border-radius: 10px;  /* Round corners of the title */
           padding: 10px;  /* Add padding inside the title */
-          background-color: #0000A3;  /* Set background color for the title */
+          background-color: #0A7029;  /* Set background color for the title */
           box-shadow: 2px 2px 8px rgba(0,0,0,0.3);  /* Add shadow to the title */
       }
       h3 {
@@ -44,8 +44,8 @@ ui_nsf25_5 <- fluidPage(
           font-weight: bold;  /* Make paragraphs bold */
       }
       .action-button {
-          background-color:#F9521E;  /* Set background color for action buttons */
-          color: black;  /* Set text color for action buttons */
+          background-color: #0A7029;  /* Set background color for action buttons */
+          color: white;  /* Set text color for action buttons */
           border: 3px solid black;  /* Add border for action buttons */
           border-radius: 5px;  /* Round corners of action buttons */
           padding: 10px 20px;  /* Add padding inside action buttons */
@@ -56,14 +56,14 @@ ui_nsf25_5 <- fluidPage(
   ),
   
   # Title displayed at the top of the app
-  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Effect Tower Building?")), br(), 
+  div(class = "title", HTML("Speedy Skyscrapers<br>Does Age Matter in Tower Building?")), br(), 
   
   # Define layout of the page with a sidebar and a main panel
   # radioButtons = checkboxes
   sidebarLayout(
     sidebarPanel(
       class = "sidebar",
-      sliderInput("blocks", "How many blocks?", min = 1, max = 10, value = 1), 
+      sliderInput("blocks", "Number of Blocks (HEIGHT)?", min = 1, max = 10, value = 1), 
       radioButtons("age", "Age", 
                    choices = c("Toddler (0-4)" = "Toddler (0-4)", 
                                "Young Child (5-8)" = "Young Child (5-8)",
@@ -94,7 +94,8 @@ ui_nsf25_5 <- fluidPage(
 # Server logic to handle user inputs and generate outputs
 server <- function(input, output, session) {
   # Define the path for saving the inputs as a CSV
-  tower <- "data/nsf2025_data_collection.csv"
+  tower <- "data/nsf2025_data_collection_1.csv" # Saturday = 191 entries
+  #tower <- "data/nsf2025_data_collection_1.csv" # Sunday = 212 entries
   
   # Load existing data if it exists
   if (file.exists(tower)) {
@@ -128,10 +129,11 @@ server <- function(input, output, session) {
     
     # Create the ggplot scatter plot
     p <- ggplot(plot_data, aes(y = Blocks, x = Age, color = Color, text = paste("<br>Age:", Age, "<br>Blocks:", Blocks))) +
-      geom_point(size = 6, shape = 21, fill = plot_data$Color) + # Add points to the plot with customized size and color
+      geom_point(size = 6, shape = 21, fill = plot_data$Color) + # Add points to the plot with customized size and colour
+      geom_jitter() +
       scale_color_identity() + # Use the exact color values provided (no automatic scaling)
       theme_minimal(base_size = 15) + # Apply a minimal theme to the plot
-      labs(y = "Number of Blocks", x = "Age") + # Set labels for axes
+      labs(y = "Number of Blocks (HEIGHT)", x = "Age") + # Set labels for axes
       scale_y_continuous(limits = c(0, 10), breaks = 0:10) + # Set y-axis limits and breaks
       scale_x_discrete(labels = c(
         "Toddler (0-4)" = "Toddler", 
@@ -145,6 +147,8 @@ server <- function(input, output, session) {
       )) + # Rename x-axis labels
       theme(plot.title = element_text(face = "bold", size = 20, color = "#000000"), # Customize plot title style
             axis.title = element_text(face = "bold", size = 16), # Customize axis title style
+            axis.text.x = element_text(face = "bold"), # Customize x-axis text style
+            axis.text.y = element_text(face = "bold"), # Customize y-axis text style
             legend.position = "none", # Hide legend
             panel.background = element_rect(fill = "#F0FFFF"), # Set panel background color
             plot.background = element_rect(fill = "#F0FFFF"), # Set overall plot background color
@@ -158,5 +162,4 @@ server <- function(input, output, session) {
 }
 
 # Run the Shiny app
-shinyApp(ui = ui_nsf25_5, server = server)
-
+shinyApp(ui = ui_nsf25_3, server = server)

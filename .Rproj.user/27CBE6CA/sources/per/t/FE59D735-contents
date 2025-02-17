@@ -1,0 +1,329 @@
+#___________________________----
+# SET UP ----
+## An analysis of the bill dimensions of male and female Adelie, Gentoo and Chinstrap penguins ----
+
+### Data first published in  Gorman, KB, TD Williams, and WR Fraser. 2014. “Ecological Sexual Dimorphism and Environmental Variability Within a Community of Antarctic Penguins (Genus Pygoscelis).” PLos One 9 (3): e90081. https://doi.org/10.1371/journal.pone.0090081. ------
+#__________________________----
+# PACKAGES ----
+library(tidyverse) # tidy data packages
+library(janitor) # cleans variable names
+library(lubridate) # make sure dates are processed properly
+library(rstatix)
+#__________________________----
+# IMPORT DATA ----
+penguins <- read_csv ("data/penguins_raw.csv")
+
+head(penguins) # check the data has loaded, prints first 10 rows of dataframe
+#__________________________----
+# CHECK DATA----
+# check the data
+colnames(penguins)
+#__________________________----
+# CLEAN DATA ----
+
+# clean all variable names to snake_case using the clean_names function from the janitor package
+# note we are using assign <- to overwrite the old version of penguins with a version that has updated names
+# this changes the data in our R workspace but NOT the original csv file
+
+penguins <- janitor::clean_names(penguins) # clean the column names
+
+colnames(penguins) # quickly check the new variable names
+
+# shorten the variable names for N and C isotope blood samples
+
+penguins <-rename(penguins,
+                  "delta_15n"="delta_15_n_o_oo",  # use rename from the dplyr package
+                  "delta_13c"="delta_13_c_o_oo")
+
+# use mutate and case_when for a statement that conditionally changes the names of the values in a variable
+penguins <- penguins %>%
+  mutate(species =case_when(species == "Adelie Penguin (Pygoscelis adeliae)" ~ "Adelie",
+                            species == "Gentoo penguin (Pygoscelis papua)" ~ "Gentoo",
+                            species == "Chinstrap penguin (Pygoscelis antarctica)" ~ "Chinstrap"))
+#__________________________----
+# DPLYR VERBS ----
+
+select(.data = penguins, # the data object
+       species, sex, flipper_length_mm, body_mass_g) # the variables you want to select
+
+new_penguins <- select(.data = penguins, 
+                       species, sex, flipper_length_mm, body_mass_g)
+
+filter(.data = new_penguins, species == "Adelie Penguin (Pygoscelis adeliae)")
+filter(.data = new_penguins, species == "Adelie", flipper_length_mm > 190)
+
+arrange(.data = new_penguins, sex)
+arrange(.data = new_penguins,
+        sex,
+        desc(species),
+        desc(flipper_length_mm))
+
+new_penguins <- mutate(.data = new_penguins,
+                       body_mass_kg = body_mass_g/1000)
+
+# this example is human readable without intermediate objects
+penguins %>% 
+  select(species, sex, flipper_length_mm) %>% 
+  filter(sex == "MALE") %>% 
+  arrange(desc(flipper_length_mm))
+
+# check for duplicate rows in the data
+penguins %>% 
+  duplicated() %>% # produces a list of TRUE/FALSE statements for duplicated or not
+  sum() # sums all the TRUE statements
+
+# use summarise to make calculations
+penguins %>% 
+  summarise(min=min(body_mass_g, na.rm=TRUE), 
+            max=max(body_mass_g, na.rm=TRUE))
+penguins %>% 
+  group_by(species) %>%  # subsequent functions are perform "by group"
+  summarise(min=min(body_mass_g, na.rm=TRUE), 
+            max=max(body_mass_g, na.rm=TRUE))
+penguins %>% 
+  distinct(sex)
+
+# Get a sum of how many observations are missing in our dataframe
+penguins %>% 
+  is.na() %>% 
+  sum()
+
+# produce a summary of our data
+summary(penguins)
+#__________________________----
+
+penguins %>% 
+  summarise(n_distinct(individual_id)) 
+
+penguins %>% 
+  group_by(species, sex) %>% 
+  summarise(n_distinct(individual_id))# grouped output by 'species'
+
+penguins %>% 
+  summarise(
+    mean_flipper_length = mean(flipper_length_mm, na.rm=TRUE),
+    mean_culmen_length = mean(culmen_length_mm, na.rm=TRUE))
+# mean_flipper_length 201
+# mean_culmen_length 43.9
+
+penguins %>% 
+  summarise(n=n(), # number of rows of data
+            num_penguins = n_distinct(individual_id), # number of unique individuals
+            mean_flipper_length = mean(flipper_length_mm, na.rm=TRUE), # mean flipper length
+            prop_female = sum(sex == "FEMALE", na.rm=TRUE) / n()) # proportion of observations that are coded as female
+#There are 190 unique IDs and 344 total observations so it would appear that there are roughly twice as many observations as unique individuals. The sex ratio is roughly even (48% female) and the average flipper length is 201 mm.
+
+# ACROSS ----
+# The mean of ALL numeric columns in the data, where(is.numeric == TRUE) hunts for numeric columns
+
+penguins %>% 
+  summarise(across(.cols = where(is.numeric), 
+                   .fns = ~ mean(., na.rm=TRUE)))
+# number of distinct penguins, as only one column contains the word penguin
+# the argument contains looks for columns that match a character expression
+
+penguins %>% 
+  summarise(across(.cols = contains("individual"), 
+                   .fns = ~n_distinct(.)))
+
+penguin_stats <- penguins %>% 
+  group_by(individual_id) %>% 
+  summarise(num=n()) # makes a tibble in environment, groups 🐧 id, summarise by n, how many times monitored during study
+
+penguins_grouped <- penguins %>% 
+  group_by(sex, species)
+
+penguins_grouped %>%
+  summarise(mean_flipper =mean(flipper_length_mm, na.rm=TRUE))
+
+# Using mutate and group_by ----
+centered_penguins <- penguins %>% 
+  group_by(sex, species) %>% 
+  mutate(flipper_centered = flipper_length_mm-mean(flipper_length_mm, na.rm=TRUE))
+
+centered_penguins %>% 
+  select(flipper_centered)
+# Each row now returns a value for EACH penguin of how much greater/lesser than the group average (sex and species) its flipper is. 
+# Run this command will remove the groups - but this is only saved if assigned BACK to an object
+
+centered_penguins <- centered_penguins %>% 
+  ungroup()
+
+centered_penguins
+
+# Stringr ----
+
+str_replace_all(names(penguins), c("e"= "E"))
+# replace all character "e" with "E"
+
+penguins %>%
+  mutate(species=str_to_upper(species))
+# Capitalise all letters
+
+penguins %>%
+  mutate(species=str_remove_all(species, "e"))
+# remove every character "e" from selected variables
+
+df2 <-tibble(label=c("penguin", " penguin", "penguin "))
+df2 # make a test dataframe
+
+df2 %>%
+  distinct()
+
+df2 %>%
+  mutate(label=str_trim(label, side="both")) %>%
+  distinct()
+
+penguins %>%
+  filter(str_detect(individual_id, "N1"))
+
+#produce some made-up data
+df <-tibble(label=c("a-1", "a-2", "a-3"))
+#make a one column tibble
+df
+
+df %>%
+  separate(label, # name of variable
+           c("treatment", "replicate"), # new column names
+           sep="-") # the character to mark where the separation occurs
+
+#Remove the all the "/" elements from the date_egg variable
+#__________________________----
+# DATES ----
+penguins %>%
+  mutate(date_egg = str_remove_all(date_egg, "/"))
+
+# add the as.numeric() function
+penguins %>%
+  mutate(date_egg =as.numeric(str_remove_all(date_egg, "/"))) %>%
+  glimpse()
+# date_egg <dbl> 11112007, 11112007, 16112007, 16112007…
+
+penguins <- penguins %>%
+  mutate(date_egg_proper = lubridate::dmy(date_egg))
+
+penguins %>%
+  summarise(min_date=min(date_egg_proper),
+            max_date=max(date_egg_proper))
+
+# NUMBER OF OBSERVATIONS ----
+# how many times was each penguin measured, and across what total time period?
+penguins %>%
+  group_by(individual_id) %>%
+  summarise(first_observation=min(date_egg_proper),
+            last_observation=max(date_egg_proper),
+            study_duration = last_observation-first_observation,
+            n=n())
+
+penguins %>%
+  group_by(individual_id) %>%
+  summarise(first_observation=min(date_egg_proper),
+            last_observation=max(date_egg_proper),
+            study_duration_years = (last_observation-first_observation)/lubridate::dyears(1),
+            n=n()) %>%
+  arrange(desc(study_duration_years))
+
+# factors
+penguins <- penguins %>%
+  mutate(flipper_range =case_when(flipper_length_mm <= 190 ~ "small",
+                                  flipper_length_mm >190 & flipper_length_mm < 213 ~ "medium",
+                                  flipper_length_mm >= 213 ~ "large"))
+
+# bar plot
+penguins %>%
+  ggplot(aes(x = flipper_range))+
+  geom_bar()
+
+# Correct the code in your script with this version
+penguins <- penguins %>%
+  mutate(flipper_range = fct_relevel(flipper_range, "small", "medium", "large"))
+
+## Correlations ----
+mean <- penguins %>%
+  summarise(mean =mean(body_mass_g, na.rm = T))
+
+penguins %>%
+  mutate(residuals = (body_mass_g -pull(mean)),
+         sqrd_resid = residuals^2) %>%
+  drop_na(sqrd_resid) %>%
+  summarise(sum_squares =sum(sqrd_resid),
+            variance = sum_squares/(n=n())-1,
+            sd =sqrt(variance))
+
+## rank correlation ----
+penguins %>%select(culmen_length_mm,
+                   culmen_depth_mm) %>%
+  drop_na() %>%
+  mutate(rank_length=dense_rank((culmen_length_mm)),
+         rank_depth=dense_rank((culmen_depth_mm))) %>%
+  head()
+
+length_depth_scatterplot <-ggplot(penguins,aes(x= culmen_length_mm,
+                                               y= culmen_depth_mm)) +
+  geom_point()
+
+length_depth_scatterplot
+
+library(patchwork) # package calls should be placed at the TOP of your script
+
+bill_depth_marginal <- penguins %>%
+  ggplot()+
+  geom_density(aes(x=culmen_depth_mm), fill="darkgrey")+
+  theme_void()+
+  coord_flip() # this graph needs to be rotated
+
+bill_length_marginal <- penguins %>%
+  ggplot()+
+  geom_density(aes(x=culmen_length_mm), fill="darkgrey")+
+  theme_void()
+
+layout <- "
+AA#
+BBC
+BBC"
+# layout is easiest to organise using a text distribution, where ABC equal the three plots in order, and the grid is how much space they take up. We could easily make the main plot bigger and marginals smaller with
+
+# layout <- "
+# AAA#
+# BBBC
+# BBBC"
+# BBBC
+
+bill_length_marginal+length_depth_scatterplot+bill_depth_marginal+ # order of plots is important
+  plot_layout(design=layout) # uses the layout argument defined above to arrange the size and position of plots
+
+island_species_summary <- penguins %>%
+  group_by(island, species) %>%
+  summarise(n=n(),
+            n_distinct=n_distinct(individual_id)) %>%
+  ungroup() %>% # needed to remove group calculations
+  mutate(freq=n/sum(n)) # then calculates percentage of each group across WHOLE dataset
+
+island_species_summary
+
+## flipped bar graph ----
+penguins %>%
+  ggplot(aes(x=island, fill=species))+
+  geom_bar(position=position_dodge2(preserve="single"))+
+  #keeps bars to appropriate widths
+  labs(x="Island",
+       y = "Number of observations")+
+  geom_text(data=island_species_summary, # use the data from the summarise object
+            aes(x=island,
+                y= n+10, # offset text to be slightly to the right of bar
+                group=species, # need species group to separate text
+                label=scales::percent(freq) # automatically add %
+            ),
+            position=position_dodge2(width=0.8))+ # set width of dodge
+  scale_fill_manual(values=c("cyan",
+                             "darkorange",
+                             "purple"
+  ))+
+  coord_flip()+
+  theme_minimal()+
+  theme(legend.position="bottom") # put legend at the bottom of the graph
+
+# Next term - Have some praise!!! ----
+  praise::praise()
+## [1] "You are wonderful!"
+## [1] "You are spectaculaR!"
