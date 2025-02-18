@@ -1,24 +1,24 @@
 {
-    "id": "DBB6F396",
-    "path": "C:/Users/Katie/Desktop/R_files/ug_projects/ug_ds_summatives/assignment002-2023-KFarrow11-main/scripts/01_crickets.R",
+    "id": "53FD46FA",
+    "path": "C:/Users/Katie/Desktop/R_files/ug_projects/norwich_sci_fest_2024_r/scripts/sci_fest_clean.R",
     "project_path": null,
     "type": "r_source",
-    "hash": "4225720947",
+    "hash": "1633978343",
     "contents": "",
     "dirty": false,
-    "created": 1739801261454.0,
+    "created": 1739829404878.0,
     "source_on_save": false,
-    "relative_order": 4,
+    "relative_order": 5,
     "properties": {
         "source_window_id": "",
         "Source": "Source"
     },
     "folds": "",
-    "lastKnownWriteTime": 1729343019,
+    "lastKnownWriteTime": 1709309478,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1729343019,
+    "last_content_update": 1709309478,
     "read_only": false,
     "read_only_alternatives": []
 }

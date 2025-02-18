@@ -1,5 +1,4 @@
 library(tidyverse)
-library(RColorBrewer) # colour pallets
 
 # SET PLOT SIZINGS ----
 # Define your sizes
@@ -60,44 +59,3 @@ Each colour denotes a participant's selected favorite color from the following o
   custom_theme()
 
 age_plot
-
-unique(nsf25$Age)
-summary(nsf25$Age)
-
-# Sample data for age categories and participants
-age_data <- data.frame(
-  age = c("Toddler (0-4)", "Young Child (5-8)", "Child (9-12)", "Teen (13-19)", "Young Adult (20-35)", "Adult (36-60)", "Older Adult (61-70)", "Senior (70+)"),
-  participants = c(48, 141, 100, 22, 27, 47, 8, 9))
-
-glimpse(age_data)
-
-# Pivot the data frame to longer format
-age_data <- pivot_longer(
-  age_data,
-  cols = participants,
-  names_to = "variable",
-  values_to = "count"
-)
-
-# View the transformed data
-print(age_data)
-
-# Create bar chart
-colours <- c("#DB1F48", "#FAD02C", "#FD49A0", "#59981A", "#FD7F20", "#C197D2", "#01949A", "#B7AC44")
-
-participants_plot <- age_data %>%
-  ggplot(aes(x = age, y = count, fill = colours)) +
-  geom_bar(stat = "identity", colour = "black") +
-  scale_fill_manual(values = colours) +
-  labs(title = "Number of participants per age group", x = "Age", y = "Count") +
-  theme_bw() +
-  scale_y_continuous(limits = c(0, 150), breaks = seq(0, 150, by = 10)) + # Set y-axis limits and breaks
-  scale_x_discrete(labels = c(
-    "Toddler (0-4)", "Young Child (5-8)", "Child (9-12)", "Teen (13-19)", 
-    "Young Adult (20-35)", "Adult (36-60)", "Older Adult (61-70)", "Senior (70+)"
-  )) +
-  custom_theme() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-participants_plot
-

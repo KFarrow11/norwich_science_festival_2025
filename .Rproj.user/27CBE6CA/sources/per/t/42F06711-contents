@@ -1,0 +1,3 @@
+# 🚚 LOAD R OBJECTS AND FUNCTIONS ----
+# Import tidied data and functions
+source("C:\Users\Katie\OneDrive\Pictures\R_files\norwich_sci_fest_2024\scripts\sci_fest_clean.R")
