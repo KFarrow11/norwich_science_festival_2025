@@ -1,35 +1,76 @@
-# Norwich Science Festival 2025
+# Norwich Science Festival 2025: Speedy Skyscrapers - Data Collection and Visualization App
 ## University of East Anglia School of Biological and Environmental Sciences Personal and Professional Development Club
 
-### Members
-- Katie Farrow (BIO PGT Student)
+### SciComms group Members
+- Katie Farrow (BIO PGT Student) - Shiny app developer
 - Imie James (BIO UG Student)
 - Rosie Gibbs (BIO UG Student)
 - Elisabeth Odgers Orford (BIO UG Student)
 - Sathvik Surapaneni (BIO UG Student) 
-- Emily Chiu (BIO UG Student) 
-- Freddie Marlowe (BIO UG Student)
+- Freddie Marlowe (BIO UG Student) - Shiny app developer
+- Emily Chiu (BIO UG Student) - Shiny app developer
+#  
+This repository contains the code for an interactive R Shiny application used to collect and visualize data during the "Speedy Skyscrapers" activity at the Norwich Science Festival 2025. The activity involved participants building towers from blocks, and the app was used to record and analyze data related to their tower-building attempts.
 
-### Objective
-Build the tallest possible structure using coloured blocks within the 30-second time limit.
+### Project Description
+The "Speedy Skyscrapers" activity aimed to explore whether age influences tower-building techniques. Participants were challenged to build the tallest stable tower possible using 10 blocks. The Shiny app was designed to:
+* Collect data on the number of blocks used (tower height), participant age group, and favourite colour.
+* Provide real-time visualization of the collected data through an interactive scatter plot.
+* Store the data in a CSV file for further analysis.
 
-### Setup
-1. **Equal Distribution**: Ensure each participant has an identical number of coloured building blocks.
-2. **Arrangement**: Position participants around a flat surface for the  building.
-3. **Shiny App Integration**: Utilize the Shiny App for seamless and efficient data collection, showcasing technological advancements in the process.
+### Features
 
-### Instructions to Participants
-1. **Objective Explanation**: Construct the tallest structure possible within 30 seconds.
-2. **Start Signal**: Participants should wait for the start signal before beginning.
-3. **Initiate**: Start the timer with a signal (e.g., "3, 2, 1, Go!").
-4. **Building Phase**: Participants build their structures as tall as possible.
-5. **Timekeeping**: Use a stopwatch to track 30-second limit.
-6. **End Signal**: Participants must stop building at the end of 30 seconds.
+* **Interactive Data Input:** User-friendly interface with sliders and radio buttons for data entry.
+* **Real-time Visualization:** Dynamic scatter plot displaying tower height against age group, colored by favourite colour.
+* **Data Persistence:** Data is stored in a CSV file, ensuring no data loss.
+* **Custom Styling:** The app features a custom theme using Norwich City Football Club colours and a typewriter font.
+* **Interactive Plotly Plot:** The scatter plot is interactive using the plotly library.
+* **Data tooltips:** The plotly plot displays data point information when hovered over.
+* **Responsive Design:** The plotly plot is set to autosize.
+#
+### Getting Started
+**Prerequisites**
 
-### Data Analysis
-1. **Data Recording**: The Shiny App records the number of blocks used, participants' age, and favourite colour.
-2. **Visualization**: Scatter plot to visualise the data.
-3. **Pattern Analysis**: Examine patterns and insights to identify strategies that led to taller and more stable structures.
+* R (version 4.0 or later)
+* RStudio (recommended)
+* The following R packages:
+    * `shiny`
+    * `tidyverse`
+    * `plotly`
 
-### Technological Advancements
-The construction of the Shiny App demonstrates the ease and effectiveness of modern technology in data collection. It streamlines the process, ensuring accurate and efficient data capture, analysis, and visualization. This integration simplifies the data collection process and provides a user-friendly interface for participants to input their data.
+**Installation**
+
+1.  Clone the repository to your local machine:
+
+    ```bash
+    git clone [repository URL]
+    ```
+
+2.  Open the `ui_nsf25_3.R` file in RStudio.
+
+3.  Install the required R packages if you haven't already:
+
+    ```R
+    install.packages(c("shiny", "tidyverse", "plotly"))
+    ```
+
+**Running the App**
+1.  In RStudio, click the "Run App" button at the top of the `ui_nsf25_3.R` script.
+
+2.  The Shiny app will open in your web browser.
+
+**Usage**
+
+1.  Use the slider to select the number of blocks used in the tower.
+
+2.  Select the participant's age group using the radio buttons.
+
+3.  Select the participant's favorite color using the radio buttons.
+
+4.  Click the "Plot Data" button to add the data point to the scatter plot and save it to the CSV file.
+
+5.  Observe the real-time updates to the scatter plot.
+
+**Data**
+
+The collected data is stored in the `data/nsf2025_data_collection_1.csv` file.
