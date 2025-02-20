@@ -1,0 +1,57 @@
+# DATA ----
+exposure <- c(8.3, 6.4, 3.4, 3.8, 2.6, 11.6, 1.2, 2.5, 1.6)
+cancer <- c(210, 180, 130, 170, 130, 210, 120, 150, 140)
+# view
+exposure_cancer <- tibble(exposure, cancer)
+exposure_cancer
+
+glimpse(exposure_cancer)
+summary(exposure_cancer)
+
+## DATA PLOT/ preliminary investigations ----
+# Create a scatter plot to look at the relationship between radiation 
+ggplot(data= exposure_cancer, aes(x = exposure, y = cancer)) +
+  geom_point()+
+  geom_smooth(method='lm') # fit a line using the method linear model
+  # conclusion = more exposure to radiation increases the probability of cancer mortality
+# 2 points are outliers
+
+# MODEL ----
+# building model
+model01 <- lm(cancer ~ exposure, data = exposure_cancer)
+# Here we are creating a new object called model01
+# In this object we are placing a linear model as described by the lm() function
+# We are then specifying that we want to analyse cancer (our response variable) as a function of exposure (our predictor variable) using tilde (~). 
+# We then just tell R which data frame we are using with the data = exposure_cancer argument. 
+
+summary(model01) 
+# Summary() will just print out a summary of our model for us to interpret.
+
+## MODEL PLOT ---- 
+ggplot(model01, aes(x = .fitted, y = .resid)) +
+  geom_point()+
+  geom_hline(yintercept = 0)
+
+get_regression_points(model01)
+# export regression points in a table of outcome/response variable, all explanatory/predictor variables, the fitted/predicted value, and residuals.
+performance::check_model(model01)
+
+summary(model01) # one-way t-test
+
+
+
+## correlation analysis (data = cod_biomas) ----
+# DATA 
+cod_biomas <- read.csv('data/cod_biomas.csv')
+cod_biomas
+
+ggplot(cod_biomas, aes(x = year, y = cod_biomass)) +
+  geom_point()+
+  theme_classic()
+
+correlation01 <- cor.test(cod_biomas$year, cod_biomas$cod_biomass, method = "pearson")
+correlation02 <- cor.test(cod_biomas$year, cod_biomas$cod_biomass, method = "spearman")
+# perform a correlation test on year and cod_biomass in the cod_biomass data set using Pearson's correlation coefficient. 
+correlation01 # print the information stored in correlation 01
+correlation02
+

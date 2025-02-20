@@ -1,0 +1,260 @@
+---
+title: "Penguin Data Analysis"
+author: "Your Name"
+date: "2025-02-19"
+output: html_document
+---
+
+# Setup
+
+```` ```{r setup, include=FALSE} # Load required packages library(janitor) library(lubridate) library(readr) library(dplyr) library(ggplot2) ````
+
+```` ``` ````
+
+# Import the dataset
+
+`penguins_raw <- read_csv("C:/Users/Katie/Desktop/R_files/masters/bioinformatics/bioinformatics_intro/data/penguins_raw.csv") penguins <- janitor::clean_names(penguins_raw)`
+
+# Clean column names
+
+`penguins <- janitor::clean_names(penguins)`
+
+# Rename specific columns
+
+`penguins <- rename(penguins, "delta_15n" = "delta_15_n_o_oo", "delta_13c" = "delta_13_c_o_oo")`
+
+# Transform species names for readability
+
+`penguins <- penguins %>% mutate(species = case_when( species == "Adelie Penguin (Pygoscelis adeliae)" ~ "Adelie", species == "Gentoo penguin (Pygoscelis papua)" ~ "Gentoo", species == "Chinstrap penguin (Pygoscelis antarctica)" ~ "Chinstrap" ))`
+
+# Select and filter specific columns
+
+`new_penguins <- penguins %>% select(species, sex, flipper_length_mm, body_mass_g) %>% filter(species == "Adelie", flipper_length_mm > 190)`
+
+# Summarise and group data
+
+`penguins_summary <- penguins %>% group_by(species) %>% summarise(total = n(), mean_body_mass = mean(body_mass_g, na.rm = TRUE))`
+
+# Pipe operations
+
+`penguins %>% select(species, sex, flipper_length_mm) %>% filter(sex == "MALE") %>% arrange(desc(flipper_length_mm))`
+
+# Process dates
+
+penguins \<- penguins %\>% mutate(date_egg = lubridate::dmy(as.character(date_egg)))
+
+# Convert to factors and plot
+
+penguins \<- penguins %\>% mutate(flipper_range = case_when( flipper_length_mm \<= 190 \~ "small", flipper_length_mm \> 190 & flipper_length_mm \< 213 \~ "medium", flipper_length_mm \>= 213 \~ "large" )) %\>% mutate(flipper_range = factor(flipper_range, levels = c("small", "medium", "large")))
+
+penguins %\>% ggplot(aes(x = flipper_range)) + geom_bar(fill = "black")
+
+penguins %\>% summarise(min_date = min(date_egg, na.rm = TRUE), max_date = max(date_egg, na.rm = TRUE))
+
+# More summaries and grouped summaries
+
+penguins %\>% summarise(n_distinct(individual_id))
+
+penguins %\>% group_by(species, sex) %\>% summarise(n_distinct(individual_id))
+
+penguins %\>% summarise(mean_flipper_length = mean(flipper_length_mm, na.rm=TRUE), mean_culmen_length = mean(culmen_length_mm, na.rm=TRUE))
+
+penguins %\>% summarise(n = n(), num_penguins = n_distinct(individual_id), mean_flipper_length = mean(flipper_length_mm, na.rm=TRUE), prop_female = sum(sex == "FEMALE", na.rm=TRUE) / n())
+
+penguins %\>% summarise(across(.cols = where(is.numeric), .fns = \~ mean(., na.rm=TRUE)))
+
+penguins %\>% summarise(across(.cols = contains("individual"), .fns = \~n_distinct(.)))
+
+penguin_stats \<- penguins %\>% group_by(individual_id) %\>% summarise(num = n())
+
+penguins_grouped \<- penguins %\>% group_by(sex, species)
+
+penguins_grouped %\>% summarise(mean_flipper = mean(flipper_length_mm, na.rm = TRUE))
+
+centered_penguins \<- penguins %\>% group_by(sex, species) %\>% mutate(flipper_centered = flipper_length_mm - mean(flipper_length_mm, na.rm = TRUE))
+
+centered_penguins \<- centered_penguins %\>% ungroup()
+
+# Check new column
+
+centered_penguins %\>% select(flipper_centered)
+
+# Number of observations and study duration
+
+penguins %\>% group_by(individual_id) %\>% summarise(first_observation = min(date_egg, na.rm = TRUE), last_observation = max(date_egg, na.rm = TRUE), study_duration_years = (last_observation - first_observation) / lubridate::dyears(1), n = n()) %\>% arrange(desc(study_duration_years))
+
+# Checking for duplicates and missing data
+
+penguins %\>% duplicated() %\>% sum()
+
+penguins %\>% summarise(min = min(body_mass_g, na.rm = TRUE), max = max(body_mass_g, na.rm = TRUE))
+
+penguins %\>% group_by(species) %\>% summarise(min = min(body_mass_g, na.rm = TRUE), max = max(body_mass_g, na.rm = TRUE))
+
+penguins %\>% distinct(sex)
+
+penguins %\>% is.na() %\>% sum()
+
+summary(penguins)
+
+# Number of distinct penguins
+
+penguins %\>% summarise(n_distinct(individual_id))
+
+# Grouped output by 'species' and 'sex'
+
+penguins %\>% group_by(species, sex) %\>% summarise(n_distinct(individual_id))
+
+# Calculate the mean flipper and bill lengths
+
+penguins %\>% summarise( mean_flipper_length = mean(flipper_length_mm, na.rm=TRUE), mean_culmen_length = mean(culmen_length_mm, na.rm=TRUE) )
+
+# Group summary - generate further insights
+
+penguins %\>% summarise( n = n(), num_penguins = n_distinct(individual_id), mean_flipper_length = mean(flipper_length_mm, na.rm=TRUE), prop_female = sum(sex == "FEMALE", na.rm=TRUE) / n() )
+
+# Across - mean of all numeric columns
+
+penguins %\>% summarise(across(.cols = where(is.numeric), .fns = \~ mean(., na.rm=TRUE)))
+
+# Number of distinct penguins by columns containing 'individual'
+
+penguins %\>% summarise(across(.cols = contains("individual"), .fns = \~n_distinct(.)))
+
+# Grouping by individual penguin ids
+
+penguin_stats \<- penguins %\>% group_by(individual_id) %\>% summarise(num = n())
+
+# More than 1 grouping variable
+
+penguins_grouped \<- penguins %\>% group_by(sex, species)
+
+# Calculate the mean flipper length of penguins in each of the six combinations
+
+penguins_grouped %\>% summarise(mean_flipper = mean(flipper_length_mm, na.rm=TRUE))
+
+# Using mutate and group_by
+
+centered_penguins \<- penguins %\>% group_by(sex, species) %\>% mutate(flipper_centered = flipper_length_mm - mean(flipper_length_mm, na.rm=TRUE))
+
+centered_penguins %\>% select(flipper_centered)
+
+# Remove group_by
+
+centered_penguins \<- centered_penguins %\>% ungroup()
+
+centered_penguins
+
+# Remove slashes from date_egg
+
+penguins %\>% mutate(date_egg = str_remove_all(date_egg, "/"))
+
+# Convert date_egg to numeric
+
+penguins %\>% mutate(date_egg = as.numeric(str_remove_all(date_egg, "/"))) %\>% glimpse()
+
+# Convert date_egg to proper date format
+
+penguins \<- penguins %\>% mutate(date_egg_proper = lubridate::dmy(date_egg))
+
+# Summarise min and max dates
+
+penguins %\>% summarise(min_date = min(date_egg_proper), max_date = max(date_egg_proper))
+
+# Number of observations and study duration
+
+penguins %\>% group_by(individual_id) %\>% summarise(first_observation = min(date_egg_proper), last_observation = max(date_egg_proper), study_duration_years = (last_observation - first_observation) / lubridate::dyears(1), n = n()) %\>% arrange(desc(study_duration_years))
+
+# Create flipper range categories
+
+penguins \<- penguins %\>% mutate(flipper_range = case_when( flipper_length_mm \<= 190 \~ "small", flipper_length_mm \> 190 & flipper_length_mm \< 213 \~ "medium", flipper_length_mm \>= 213 \~ "large" ))
+
+# Bar plot of flipper ranges
+
+penguins %\>% ggplot(aes(x = flipper_range)) + geom_bar(aes(fill = "black"))
+
+# Convert flipper_range to factor
+
+penguins \<- penguins %\>% mutate(flipper_range = fct_relevel(flipper_range, "small", "medium", "large"))
+
+# Plot flipper ranges again
+
+penguins %\>% ggplot(aes(x = flipper_range)) + geom_bar(aes(fill = "black"))
+
+# Data Visualisation - My Favorite Topic
+
+## Building a ggplot step by step
+
+`penguins %>% ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + layer( geom = "point", stat = "identity", position = position_identity() )`
+
+# Simple version
+
+penguins %\>% ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + geom_point(colour = "red")
+
+# Adding color to points
+
+penguins %\>% ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + geom_point(aes(colour = species))
+
+penguins %\>% ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + geom_point(aes(colour = species)) + geom_smooth(method = "lm", se = FALSE, aes(colour = species))
+
+# Simplified version of above
+
+penguins %\>% ggplot(aes(x = flipper_length_mm, y = body_mass_g, colour = species)) + geom_point() + geom_smooth(method = "lm", se = FALSE)
+
+penguins %\>% ggplot(aes(x = flipper_length_mm, y = body_mass_g, colour = species)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + xlim(0, 240) + ylim(0, 7000)
+
+penguins %\>% ggplot(aes(x = flipper_length_mm, y = body_mass_g, colour = species)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + xlim(0, 240) + ylim(0, 7000) + coord_flip()
+
+penguins %\>% ggplot(aes(x = flipper_length_mm, y = body_mass_g, colour = species)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + labs( x = "Flipper length (mm)", y = "Body mass (g)", title = "Penguin Size, Palmer Station LTER", subtitle = "Flipper length and body mass for three penguin species" )
+
+penguins %\>% ggplot(aes(x = flipper_length_mm, y = body_mass_g, colour = species)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + labs( x = "Flipper length (mm)", y = "Body mass (g)", title = "Penguin Size, Palmer Station LTER", subtitle = "Flipper length and body mass for three penguin species" ) + theme_classic()
+
+penguins %\>% ggplot(aes(x = flipper_length_mm, y = body_mass_g, colour = species)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + labs( x = "Flipper length (mm)", y = "Body mass (g)", title = "Penguin Size, Palmer Station LTER", subtitle = "Flipper length and body mass for three penguin species" ) + theme_minimal()
+
+penguins %\>% ggplot(aes(x = flipper_length_mm, y = body_mass_g, colour = species)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + labs( x = "Flipper length (mm)", y = "Body mass (g)", title = "Penguin Size, Palmer Station LTER", subtitle = "Flipper length and body mass for three penguin species" ) + theme_void()
+
+ggplot(data = penguins, aes(x = species, y = culmen_length_mm)) + geom_point(aes(color = species), alpha = 0.7, show.legend = FALSE)
+
+ggplot(data = penguins, aes(x = species, y = culmen_length_mm)) + geom_jitter(aes(color = species), width = 0.1, alpha = 0.7, show.legend = FALSE)
+
+ggplot(data = penguins, aes(x = species, y = culmen_length_mm)) + geom_boxplot(aes(fill = species), alpha = 0.7, width = 0.5, show.legend = FALSE)
+
+ggplot(data = penguins, aes(x = species, y = culmen_length_mm)) + geom_boxplot(aes(fill = species), alpha = 0.2, width = 0.5, outlier.shape = NA) + geom_jitter(aes(colour = species), width = 0.2) + theme(legend.position = "none")
+
+# Frequency histogram
+
+penguins %\>% ggplot(aes(x = culmen_length_mm, fill = species), position = "identity") + geom_histogram(bins = 50)
+
+# Density histogram
+
+penguins %\>% ggplot(aes(x = culmen_length_mm, fill = species)) + geom_histogram(bins = 50, aes(y = ..density..), position = "identity")
+
+penguins %\>% ggplot(aes(x = flipper_length_mm)) + geom_histogram(bins = 50, aes(y = ..density.., fill = species), position = "identity", colour = "black") + theme_classic() + labs( x = "Flipper Length (mm)", title = "Flipper Length Distribution among Penguin Species", subtitle = "A comparative analysis of flipper lengths in Adelie, Chinstrap, and Gentoo penguins at Palmer Station LTER" )
+
+# OUTPUT FIGURE TO FILE
+
+ggsave("outputs/2025_02_08_penguin_plot.png", dpi = 400)
+
+# Custom color palette
+
+penguin_colours \<- c("darkolivegreen4", "darkorchid3", "goldenrod1")
+
+penguins %\>% ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + geom_point(aes(colour = species)) + scale_color_manual(values = penguin_colours) + theme_minimal()
+
+penguins %\>% ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + geom_point(aes(colour = species)) + scale_color_brewer(palette = "Set1") + theme_minimal()
+
+colorBlindness::cvdPlot() \# will automatically run on the last plot you made
+
+penguins %\>% drop_na(sex) %\>% ggplot(aes(x = flipper_length_mm, y = body_mass_g, colour = species)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + facet_wrap(\~sex) + theme_classic()
+
+# OUTPUT FIGURE TO FILE
+
+ggsave("outputs/2025_02_08_facetwrap_plot.png", dpi = 400)
+
+# Patching multiple plots on 1 screen
+
+p1 \<- penguins %\>% ggplot(aes(x = flipper_length_mm, y = culmen_length_mm)) + geom_point(aes(colour = species)) + scale_color_manual(values = penguin_colours) + theme_minimal()
+
+p2 \<- penguins %\>% ggplot(aes(x = culmen_depth_mm, y = culmen_length_mm)) + geom_point(aes(colour = species)) + scale_color_manual(values = penguin_colours) + theme_minimal()
+
+p3 \<- penguins %\>% group_by(sex, species) %\>% summarise

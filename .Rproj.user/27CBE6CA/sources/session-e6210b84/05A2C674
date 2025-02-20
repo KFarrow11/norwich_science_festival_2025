@@ -1,24 +1,24 @@
 {
-    "id": "1C467C23",
-    "path": "C:/Users/Katie/Desktop/R_files/masters/bioinformatics/bioinformatics_intro/scripts/100318577_GWAS_lab6.R",
+    "id": "05A2C674",
+    "path": "C:/Users/Katie/Desktop/R_files/ug_projects/ug_penguins/scripts/02_visualisation_penguins.R",
     "project_path": null,
     "type": "r_source",
-    "hash": "46944405",
+    "hash": "1275956577",
     "contents": "",
     "dirty": false,
-    "created": 1739884341063.0,
+    "created": 1739827313007.0,
     "source_on_save": false,
-    "relative_order": 8,
+    "relative_order": 3,
     "properties": {
         "source_window_id": "",
         "Source": "Source"
     },
     "folds": "",
-    "lastKnownWriteTime": 1739454841,
+    "lastKnownWriteTime": 1739870412,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1739454841,
+    "last_content_update": 1739870412,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -46,6 +46,7 @@ penguins %>%
               se=FALSE,
               aes(colour=species)) # note layers inherit information from the top ggplot() function but not previous layers - if we want separate lines per species we need to either specify this again *or* move the color aesthetic to the top layer. 
 
+# simplified version of above
 penguins %>% 
   ggplot(aes(x=flipper_length_mm, 
              y = body_mass_g,
@@ -53,7 +54,6 @@ penguins %>%
   geom_point() +
   geom_smooth(method="lm",    #add another layer of data representation.
               se=FALSE)
-
 
 ## Set axis limits ----
 penguins %>% 
@@ -83,22 +83,10 @@ penguins %>%
   geom_point()+
   geom_smooth(method="lm",    
               se=FALSE)+
-  labs(x = "Flipper length (mm)",
-       y = "Body mass (g)")
-
-
-## Add titles ----
-penguins %>% 
-  ggplot(aes(x=flipper_length_mm, 
-             y = body_mass_g,
-             colour=species))+ 
-  geom_point()+
-  geom_smooth(method="lm",    
-              se=FALSE)+
-  labs(x = "Flipper length (mm)",
-       y = "Body mass (g)",
-       title= "Penguin Size, Palmer Station LTER",
-       subtitle= "Flipper length and body mass for three penguin species")
+  labs(x = "Flipper length (mm)", # x.axis title
+       y = "Body mass (g)", # y.axis title
+       title= "Penguin Size, Palmer Station LTER", # title
+       subtitle= "Flipper length and body mass for three penguin species") # subtitle
 
 
 ## Custom themes ----
@@ -113,27 +101,58 @@ penguins %>%
        y = "Body mass (g)",
        title= "Penguin Size, Palmer Station LTER",
        subtitle= "Flipper length and body mass for three penguin species")+
-  theme_void()
+  theme_classic() # my personal preference
 
+penguins %>% 
+  ggplot(aes(x=flipper_length_mm, 
+             y = body_mass_g,
+             colour=species))+ 
+  geom_point()+
+  geom_smooth(method="lm",    
+              se=FALSE)+
+  labs(x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       title= "Penguin Size, Palmer Station LTER",
+       subtitle= "Flipper length and body mass for three penguin species")+
+  theme_minimal() 
+
+
+penguins %>% 
+  ggplot(aes(x=flipper_length_mm, 
+             y = body_mass_g,
+             colour=species))+ 
+  geom_point()+
+  geom_smooth(method="lm",    
+              se=FALSE)+
+  labs(x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       title= "Penguin Size, Palmer Station LTER",
+       subtitle= "Flipper length and body mass for three penguin species")+
+  theme_void() 
+
+
+# GEOMS
 ## geom point
-
 ggplot(data = penguins, aes(x = species, y = culmen_length_mm)) +
   geom_point(aes(color = species),
              alpha = 0.7, 
              show.legend = FALSE) 
-## More geoms ----
+
+# jitter
 ggplot(data = penguins, aes(x = species, y = culmen_length_mm)) +
   geom_jitter(aes(color = species),
               width = 0.1, # specifies the width, change this to change the range of scatter
               alpha = 0.7, # specifies the amount of transparency in the points
               show.legend = FALSE) # don't leave a legend in a plot, if it doesn't add value
 
+# boxplot
 ggplot(data = penguins,aes(x = species, y = culmen_length_mm)) +
   geom_boxplot(aes(fill = species),
                alpha = 0.7,
                width = 0.5, # change width of boxplot
                show.legend = FALSE)
 
+# boxplot with jitter
 ggplot(data = penguins,aes(x = species, y = culmen_length_mm)) +
   geom_boxplot(aes(fill = species), # note fill is "inside" colour and colour is "edges" - try it for yourself
                alpha = 0.2, # fainter boxes so the points "pop"
@@ -155,7 +174,8 @@ penguins %>%
   geom_histogram(bins=50,
                  aes(y=..density..),
                  position = "identity") # the 'relative density' within each bin. 
-# here are far fewer Adelie penguins in our dataset, but in a density histogram they occupy the same area of the graph as the other two species.
+
+# Results = far fewer Adelie penguins in our dataset, but in a density histogram they occupy the same area of the graph as the other two species
 #__________________________----
 # ADDING COLORS----
 penguins %>%
@@ -164,12 +184,11 @@ penguins %>%
                  aes(y=..density..,
                      fill=species),
                  position = "identity",
-                 colour="black") +
+                 colour="black") + # add black boarder to bars
   theme_classic() +
   labs(x = "Flipper Length (mm)",
        title= "Flipper Length Distribution among Penguin Species",
        subtitle= "A comparative analysis of flipper lengths in Adelie, Chinstrap, and Gentoo penguins at Palmer Station LTER")
-
 
 ## Custom colors ----
 # look at color chart for codes
@@ -189,12 +208,11 @@ penguins %>%
   scale_color_brewer(palette="Set1")+
   theme_minimal()
 
-## Check accessibility ----
-
+## Check accessibility for colour blindness ----
 library(colorBlindness)
 colorBlindness::cvdPlot() # will automatically run on the last plot you made
 
-## Facetting ----
+## multiple plots = Facetting ----
 penguins %>%
   drop_na(sex) %>%
   ggplot(aes(x=flipper_length_mm,
@@ -237,6 +255,8 @@ p3 <- penguins %>%
 (p1+p2)/p3+
   plot_layout(guides = "collect")
 
+
+# Relpicate violin plot
 pal <-c("darkorange1", "darkorchid3", "turquoise4")
 
 penguins %>%
@@ -258,10 +278,8 @@ penguins %>%
     subtitle = "Box and violin plot of body mass by species")
 
 # OUTPUT FIGURE TO FILE
-
 ggsave("figures/2022_10_18_ggplot_workshop_final_plot.png", dpi=300)
 
-sessionInfo()
 
 
 
