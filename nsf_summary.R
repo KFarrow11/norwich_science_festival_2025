@@ -236,7 +236,7 @@ pop_colour$Age <- factor(pop_colour$Age,
                                     "Older Adult (61-70)", "Senior (70+)"))
 
 # Plot
-ggplot(pop_colour, aes(x = Age, y = Count, fill = Color)) +
+pop_colour_plot <- ggplot(pop_colour, aes(x = Age, y = Count, fill = Color)) +
   geom_bar(stat = "identity", position = "dodge", color = "black") +
   scale_fill_identity() +
   theme_classic() +
@@ -250,3 +250,5 @@ ggplot(pop_colour, aes(x = Age, y = Count, fill = Color)) +
         plot.caption = element_text(hjust = 0, vjust = 1, size = 14), # Align caption to the bottom left
           axis.text.x = element_text(size = text_size)) +
   custom_theme()
+
+pop_colour_plot

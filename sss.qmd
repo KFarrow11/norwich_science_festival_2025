@@ -1,0 +1,72 @@
+---
+title: "Speedy Skyscrapers"
+format: dashboard
+server: shiny
+---
+
+```{r}
+library(shiny)
+library(plotly)
+library(ggplot2)
+
+# Load your data
+tower <- "data/sss2025_data_collection.csv"
+if (file.exists(tower)) {
+  tower_data <- read.csv(tower)
+} else {
+  tower_data <- data.frame(Age = character(), Blocks = numeric())
+}
+```
+## {.sidebar}
+
+```{r}
+sidebarPanel(
+  class = "sidebar",
+  sliderInput("blocks", "Number of Blocks (HEIGHT)?", 
+              min = 1, max = 10, value = 1), 
+  radioButtons("age", "Age", 
+               choices = c("<5" = "<5", 
+                           "5-6" = "5-6",
+                           "7" = "7", 
+                           "8" = "8",
+                           "9" = "9", 
+                           "10" = "10",
+                           "11" = "11", 
+                           "12" = "12",
+                           "13-19" = "13-19",
+                           "20>" = "20>")),
+  actionButton("add", "Plot Data")
+)
+
+```
+
+## Column
+
+```{r}
+server <- function(input, output, session) {
+  data <- reactiveVal(tower_data)
+  
+  observeEvent(input$add, {
+    new_row <- data.frame(Age = input$age, Blocks = input$blocks)
+    updated_data <- rbind(data(), new_row)
+    data(updated_data)
+    write.csv(updated_data, tower, row.names = FALSE)
+  })
+  
+  output$scatterPlot <- renderPlotly({
+    plot_data <- data()
+    plot_data$Age <- factor(plot_data$Age, 
+                            levels = c("<5", "5-6", "7", "8", "9", 
+                                       "10", "11", "12", "13-19", "20>"))
+    p <- ggplot(plot_data, aes(y = Blocks, x = Age, color = Age, 
+                               text = paste("Age:", Age, "<br>Blocks:", Blocks))) +
+      geom_jitter(size = 3) +
+      theme_minimal() + 
+      labs(y = "Number of Blocks (HEIGHT)", x = "Age") +
+      scale_y_continuous(limits = c(0, 10)) +
+      theme(legend.position = "none")
+    ggplotly(p, tooltip = "text")
+  })
+}
+
+```
