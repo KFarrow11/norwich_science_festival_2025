@@ -55,7 +55,7 @@ The "Speedy Skyscrapers" activity aimed to explore whether age influences tower-
     ```
 
 **Running the App**
-1.  In RStudio, click the "Run App" button at the top of the `ui_nsf25_3.R` script.
+1.  In RStudio, click the "Run App" button at the top of any script beginning with final[].r in the scripts folder.
 
 2.  The Shiny app will open in your web browser.
 
